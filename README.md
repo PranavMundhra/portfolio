@@ -1,6 +1,6 @@
 # Pranav Mundhra — portfolio
 
-A buildless static portfolio: plain HTML, CSS and a little JavaScript. There is nothing to install or compile, and no backend. Core content and navigation work without JavaScript. The script adds the print button on the resume page, the section-nav highlighting, scroll fade-ins and the surname typing effect, and it respects reduced-motion settings.
+A buildless static portfolio: plain HTML, CSS and a little JavaScript. There is nothing to install or compile, and no backend. Core content and navigation work without JavaScript. The script adds the print button on the resume page, the section-nav highlighting, scroll fade-ins, a cursor-following dot-grid glow and the surname typing effect, and it respects reduced-motion settings.
 
 ## Local preview
 
@@ -32,5 +32,7 @@ Deploy the HTML folders and `assets/` together; links are relative, so the site 
 ## Credits
 
 GitHub and LinkedIn icons are from [Bootstrap Icons](https://github.com/twbs/icons) (MIT, see `assets/icons/LICENSE-bootstrap.txt`). PyPI and Google Drive icons are from [Simple Icons](https://github.com/simple-icons/simple-icons) (CC0). The mail and document icons are local artwork. Platform marks remain subject to their owners' brand policies.
+
+The dot-matrix headings use [Doto](https://github.com/oliverlalan/Doto) by The Doto Project Authors under the SIL Open Font License 1.1, self-hosted in `assets/fonts/` with its licence text (`OFL-Doto.txt`).
 
 Site content and photos © Pranav Mundhra. All rights reserved.

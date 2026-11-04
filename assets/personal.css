@@ -1,4 +1,4 @@
-﻿.personal-panel { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-5); padding: var(--space-4) 0; border-block: 1px solid var(--border); }
+.personal-panel { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-5); padding: var(--space-4) 0; border-block: 1px solid var(--border); }
 .personal-intro, .personal-notes { min-width: 0; }
 .personal-intro h2 { font-size: 30px; }
 .personal-intro > p:last-child { font-size: var(--size-body); color: var(--text-muted); max-width: 430px; margin-bottom: 0; }

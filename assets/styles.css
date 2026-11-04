@@ -1,4 +1,13 @@
-﻿:root {
+/* Doto: open-licence dot-matrix display font (SIL OFL, see assets/fonts/OFL-Doto.txt), self-hosted. */
+@font-face {
+  font-family: "Doto";
+  src: url("fonts/doto-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+:root {
   color-scheme: dark;
   --bg: #120f19;
   --surface: #1d1728;
@@ -243,7 +252,7 @@ html:has(body.home) { scroll-padding-top: 72px; }
 body.home { overflow-x: clip; }
 /* The band tint is a static full-width layer behind the section; it is cheap to paint while scrolling. */
 .home .band { position: relative; isolation: isolate; }
-.home .band::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; margin-left: -50vw; background: var(--diagram-bg); }
+.home .band::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; margin-left: -50vw; background: rgb(29 23 40 / .6); }
 .section-nav { position: fixed; inset: 0 0 auto 0; z-index: 9; background: #120f19f5; border-bottom: 1px solid var(--border); }
 .section-nav .container { display: flex; gap: var(--space-1); overflow-x: auto; scrollbar-width: none; }
 .section-nav .container::-webkit-scrollbar { display: none; }
@@ -268,16 +277,30 @@ body.home { overflow-x: clip; }
 /* Scroll reveal: site.js adds .reveal only to off-screen blocks, so content never flashes or hides without JS. */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s cubic-bezier(.22,.61,.36,1) var(--reveal-delay, 0s), transform .6s cubic-bezier(.22,.61,.36,1) var(--reveal-delay, 0s); }
 .reveal.is-visible { opacity: 1; transform: none; }
+/* Dot-matrix headings: purple section titles on the homepage and titles on case-study pages. */
+.home h2, .detail-page h1, .detail-page h2 { font-family: "Doto", var(--mono); font-weight: 900; font-variation-settings: "ROND" 100; letter-spacing: .01em; line-height: 1.12; }
+.home h2 .heading-dot, .home h2::after, .detail-page h1::after, .detail-page h2::after { font-family: var(--sans); font-weight: 700; font-variation-settings: normal; }
+.home h2 { font-size: clamp(32px, 4.4vw, 44px); }
+.home .achievement-copy h2 { font-size: clamp(30px, 3.8vw, 38px); }
+.detail-page .detail-hero h1 { font-size: clamp(40px, 6vw, 60px); }
+.detail-page .detail-section h2 { font-size: clamp(28px, 3.4vw, 34px); }
+
+/* Dot-grid background: a faint fixed grid, plus a brighter patch that follows the cursor in grid steps. */
+:root { --grid: 24px; }
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: radial-gradient(circle at center, rgb(158 114 211 / .2) 1.1px, transparent 1.7px); background-size: var(--grid) var(--grid); }
+.dot-glow { position: fixed; left: 0; top: 0; width: 432px; height: 432px; z-index: -1; pointer-events: none; opacity: 0; background-image: radial-gradient(circle at center, rgb(213 178 240 / .95) 1.7px, transparent 2.3px); background-size: var(--grid) var(--grid); -webkit-mask-image: radial-gradient(circle closest-side, #000, transparent); mask-image: radial-gradient(circle closest-side, #000, transparent); transition: transform .18s cubic-bezier(.22,.61,.36,1), opacity .3s ease; will-change: transform; }
+.dot-glow.is-on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
+  .dot-glow { display: none; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .surname-animated.is-typing::after { display: none; }
 }
 @media print {
   body { background: var(--print-bg); color: var(--print-text); font-size: 11pt; }
-  .skip-link, button, .site-footer, .case-navigation, .section-nav { display: none !important; }
-  .home .band::before { display: none; }
+  .skip-link, button, .site-footer, .case-navigation, .section-nav, .dot-glow { display: none !important; }
+  .home .band::before, body::before { display: none; }
   .reveal { opacity: 1 !important; transform: none !important; }
   .container { width: 100%; max-width: none; }
   h1, h2, h3, .detail-hero h1, .lead, a { color: var(--print-text); }

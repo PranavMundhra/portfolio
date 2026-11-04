@@ -32,6 +32,40 @@ if ('IntersectionObserver' in window && !reducedMotion.matches) {
   });
 }
 
+// Dot-grid glow: a brighter patch of the background grid that follows the cursor, moving in grid steps.
+// Mouse and pen only; skipped for touch and reduced motion. Only a compositor transform changes.
+if (!reducedMotion.matches && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const glow = document.createElement('div');
+  glow.className = 'dot-glow';
+  glow.setAttribute('aria-hidden', 'true');
+  document.body.append(glow);
+  const grid = 24;
+  const half = 216; // half the 432px patch, a whole number of grid cells so the dots line up with the page grid
+  let cell = '';
+  let frame = 0;
+  let point;
+  const place = () => {
+    frame = 0;
+    const x = Math.round(point.clientX / grid) * grid - half;
+    const y = Math.round(point.clientY / grid) * grid - half;
+    const key = `${x},${y}`;
+    if (key !== cell) { cell = key; glow.style.transform = `translate(${x}px, ${y}px)`; }
+    if (!glow.classList.contains('is-on')) {
+      // First appearance (or re-entry): jump straight to the cursor instead of sliding in from the corner.
+      glow.style.transition = 'none';
+      glow.getBoundingClientRect();
+      glow.style.transition = '';
+      glow.classList.add('is-on');
+    }
+  };
+  window.addEventListener('pointermove', (event) => {
+    if (event.pointerType === 'touch') return;
+    point = event;
+    if (!frame) frame = window.requestAnimationFrame(place);
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', () => glow.classList.remove('is-on'));
+}
+
 // Highlight the nav link for the section nearest the middle of the screen.
 const navLinks = [...document.querySelectorAll('.section-nav a[href^="#"]')];
 if (navLinks.length) {
