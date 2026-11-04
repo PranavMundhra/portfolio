@@ -288,7 +288,7 @@ body.home { overflow-x: clip; }
 /* Dot-grid background: a faint fixed grid, plus a brighter patch that follows the cursor in grid steps. */
 :root { --grid: 24px; }
 body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: radial-gradient(circle at center, rgb(158 114 211 / .2) 1.1px, transparent 1.7px); background-size: var(--grid) var(--grid); }
-.dot-glow { position: fixed; left: 0; top: 0; width: 432px; height: 432px; z-index: -1; pointer-events: none; opacity: 0; background-image: radial-gradient(circle at center, rgb(213 178 240 / .95) 1.7px, transparent 2.3px); background-size: var(--grid) var(--grid); -webkit-mask-image: radial-gradient(circle closest-side, #000, transparent); mask-image: radial-gradient(circle closest-side, #000, transparent); transition: transform .18s cubic-bezier(.22,.61,.36,1), opacity .3s ease; will-change: transform; }
+.dot-glow { position: fixed; left: 0; top: 0; width: 288px; height: 288px; z-index: -1; pointer-events: none; opacity: 0; background-image: radial-gradient(circle at center, rgb(213 178 240 / .95) 1.7px, transparent 2.3px); background-size: var(--grid) var(--grid); -webkit-mask-image: radial-gradient(circle closest-side, #000, transparent); mask-image: radial-gradient(circle closest-side, #000, transparent); transition: transform .18s cubic-bezier(.22,.61,.36,1), opacity .3s ease; will-change: transform; }
 .dot-glow.is-on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

@@ -40,7 +40,7 @@ if (!reducedMotion.matches && window.matchMedia('(hover: hover) and (pointer: fi
   glow.setAttribute('aria-hidden', 'true');
   document.body.append(glow);
   const grid = 24;
-  const half = 216; // half the 432px patch, a whole number of grid cells so the dots line up with the page grid
+  const half = 144; // half the 288px patch, a whole number of grid cells so the dots line up with the page grid
   let cell = '';
   let frame = 0;
   let point;
