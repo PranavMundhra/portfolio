@@ -1,0 +1,36 @@
+# Pranav Mundhra — portfolio
+
+A buildless static portfolio: plain HTML, CSS and a little JavaScript. There is nothing to install or compile, and no backend. Core content and navigation work without JavaScript. The script adds the print button on the resume page, the section-nav highlighting, scroll fade-ins and the surname typing effect, and it respects reduced-motion settings.
+
+## Local preview
+
+```sh
+npm run dev
+```
+
+Open <http://127.0.0.1:4173>. Stop the server with Ctrl+C. Set `PORT` to use a different port.
+
+```sh
+npm run check
+```
+
+The checker validates every HTML page: relative links and anchors, titles and descriptions, a single `h1`, skip links, image alt text, and leftover editorial placeholders. It does not check external services.
+
+## Structure
+
+- `index.html`: homepage (about, AISEHack, currently building, projects, experience, contact).
+- `aisehack/`: AISEHack 2026 case study with the team photo and architecture sketch.
+- `projects/`: case studies for Distributed-ML, Wind-Turbine, OTTools and VoiceRX. Other projects appear as cards on the homepage without a case study.
+- `resume/`: HTML resume overview with browser print support.
+- `assets/`: `styles.css`, `personal.css`, `site.js`, the portrait and the icons.
+- `scripts/serve.mjs`: local-only preview server. `scripts/check-site.mjs`: the checker above.
+
+## Deploying
+
+Deploy the HTML folders and `assets/` together; links are relative, so the site works at the root of a domain or under a repository path such as `/portfolio/`. With GitHub Pages, choose **Deploy from a branch**, branch `main`, folder `/ (root)`. For a custom domain, add a `CNAME` file containing the domain and set the DNS records as GitHub documents.
+
+## Credits
+
+GitHub and LinkedIn icons are from [Bootstrap Icons](https://github.com/twbs/icons) (MIT, see `assets/icons/LICENSE-bootstrap.txt`). PyPI and Google Drive icons are from [Simple Icons](https://github.com/simple-icons/simple-icons) (CC0). The mail and document icons are local artwork. Platform marks remain subject to their owners' brand policies.
+
+Site content and photos © Pranav Mundhra. All rights reserved.

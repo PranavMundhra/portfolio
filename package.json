@@ -1,0 +1,10 @@
+{
+  "name": "pranav-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Buildless static portfolio for Pranav Mundhra",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "check": "node scripts/check-site.mjs"
+  }
+}

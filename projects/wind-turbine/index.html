@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A college capstone on federated learning for early wind-turbine fault detection: keeping turbine data private while still learning from many turbines. Open source; paper in preparation.">
+  <meta name="theme-color" content="#120f19">
+  <title>Wind-Turbine — Pranav Mundhra</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <script src="../../assets/site.js" defer></script>
+</head>
+<body class="detail-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container reading">
+    <div class="detail-hero">
+      <a class="back-link" href="../../#currently-building">← Back to overview</a>
+      <p class="eyebrow">College capstone · Federated learning</p>
+      <h1>Wind-Turbine</h1>
+      <p class="lead">Can wind turbines learn what “healthy” looks like without pooling their data?</p>
+    </div>
+    <section class="detail-section">
+      <h2>The question</h2>
+      <p>This is my college capstone, studying federated learning for early fault detection on wind-turbine SCADA data: can turbines learn what “healthy” looks like without pooling their data?</p><p>SCADA is the monitoring system every modern turbine already runs. It records signals such as power output, wind speed, rotor speed and component temperatures, so it is a rich and inexpensive source of early warning, with no extra sensors needed.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Why it matters</h2>
+      <p>Offshore turbines are hard to reach, and an unplanned failure means lost generation, emergency repairs and costly vessel and crane hire. A model that warns operators early turns an emergency into a planned repair, which is cheaper and safer.</p><p>Good early-warning models need a lot of representative data. But operators treat their SCADA data as commercially sensitive, so it is rarely shared between turbines, fleets or companies, and that limits what any one party can learn.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Why federated learning</h2>
+      <p>In federated learning, each turbine trains on its own data and only model updates leave the site. A central server combines the updates into a shared model. The raw data never moves, which is what makes collaboration between data owners realistic.</p>
+      <figure class="case-visual"><div class="visual-flow" aria-hidden="true"><span class="visual-node">Each turbine trains on its own data</span><span class="visual-arrow">→</span><span class="visual-node">Only model updates are shared</span><span class="visual-arrow">→</span><span class="visual-node">A server combines them</span><span class="visual-arrow">→</span><span class="visual-node">A shared model improves</span></div><figcaption>The general idea of federated learning: data stays on site, and only model updates travel.</figcaption></figure>
+    </section>
+    <section class="detail-section">
+      <h2>What the project covers</h2>
+      <ul>
+        <li>Learning what normal operation looks like from healthy data alone, so no labelled faults are needed for training.</li>
+        <li>An open, reproducible experiment pipeline for studying federated learning on turbine data, built on a public wind-turbine benchmark.</li>
+        <li>Keeping the goal practical: what “early” detection actually means for a maintenance team.</li>
+        <li>Privacy as a design goal, not an afterthought.</li>
+      </ul>
+    </section>
+    <section class="detail-section">
+      <h2>How it is built</h2>
+      <p>The code is a tested Python package, with the experiments driven by configuration files instead of one-off notebooks. Continuous integration runs the tests on every change.</p><p>Every reported number is meant to trace back to a recorded run. Each run stores its configuration, random seed, package versions and data fingerprints, so a result can be reproduced and checked later.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Team and context</h2>
+      <p>This is a B.Tech capstone in Artificial Intelligence and Machine Learning at SVKM's NMIMS MPSTME Shirpur, academic session 2026–27. I am working on it with Anushka Sharma and Devesh Poojary, under the supervision of Dr. Praveen Kumar Loharkar. The repository was started in June 2026.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Status</h2>
+      <p>A paper is in preparation, and results will be reported there. The code is open source under the MIT licence, with an archived release, and the repository was invited to the XERJ open-source project.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Evidence and links</h2>
+      <ul class="evidence-list">
+        <li><a href="https://github.com/PranavMundhra/Wind-Turbine" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">Repository <span class="external-arrow" aria-hidden="true">↗</span></a></li>
+      </ul>
+    </section>
+    <nav class="case-navigation" aria-label="Case-study navigation"><a href="../../projects/distributed-ml/" class="case-previous"><span>← Previous case study</span><strong>Distributed-ML</strong></a><a href="../../projects/ottools/" class="case-next"><span>Next case study →</span><strong>OTTools</strong></a></nav>
+  </main>
+  <footer class="container site-footer">
+    <p>Pranav Mundhra · AI/ML engineering and research</p>
+    <a href="mailto:pranavmundhra2005@gmail.com" class="icon-link"><img class="platform-icon" src="../../assets/icons/mail.svg" alt="" aria-hidden="true" width="18" height="18">Let's connect <span class="external-arrow" aria-hidden="true">↗</span></a>
+  </footer>
+</body>
+</html>

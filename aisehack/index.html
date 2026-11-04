@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VibeCoders' Pollution Forecasting track win, Pranav Mundhra's contribution, and supporting evidence.">
+  <meta name="theme-color" content="#120f19">
+  <title>AISEHack 2026 — Pranav Mundhra</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <script src="../assets/site.js" defer></script>
+</head>
+<body class="detail-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container reading">
+    <div class="detail-hero">
+      <a class="back-link" href="../">← Back to overview</a>
+      <p class="eyebrow">Team achievement · April 2026</p>
+      <h1>AISEHack 2026</h1>
+      <p class="lead">First place in the Pollution Forecasting track at AISEHack 2026.</p>
+    </div>
+    <section class="detail-section">
+      <h2>The problem and outcome</h2>
+      <p>The task was to forecast PM2.5 concentrations using meteorological and emission information. VibeCoders won first place in the Pollution Forecasting track at the event held at IIIT Hyderabad on 4–5 April 2026.</p><p>The official archive identifies the team and lists Pranav Mundhra as its lead.</p>
+    </section>
+    <section class="detail-section">
+      <h2>My contribution</h2>
+      <p>I led VibeCoders and proposed and integrated FADE into the team's pollution-forecasting model architecture, working through FADE and the wind-warp component with the team during an overnight brainstorm.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Team and approach</h2>
+      <p>VibeCoders: Pranav Mundhra, Kartik Soni, Meet Patel, Mohammad Saad Nathani, and Anushka Sharma.</p><p>The model forecasts PM2.5 across India 16 hours ahead on a 140×124 grid, using a ConvLSTM encoder–decoder with physics-informed wind warping, because pollution moves with the wind. The submission report and slides document the full approach.</p>
+    </section>
+    <section class="detail-section">
+      <h2>The architecture, as sketched at the hackathon</h2>
+      <p>This rough hand-drawn diagram is how we presented the model at the hackathon. One of the most memorable moments for me was watching Sri Harsha Kota identify a major limitation in our architecture from this sketch in a single glance.</p><figure class="case-visual case-photo"><a href="aisehack-architecture.jpg"><img src="aisehack-architecture.jpg" alt="Hand-drawn architecture diagram on lined paper: a ten-step input window feeds a PM2.5 branch with episode detection and FADE and a meteorology branch with three dilated convolutions, both merged into a three-cell ConvLSTM, followed by wind warp, an episode detector, a spatial-attention decoder and the loss" width="1280" height="720" loading="lazy" decoding="async"></a><figcaption>Hand-drawn architecture sketch from the hackathon. Select the image to open it full size.</figcaption></figure>
+      <p>Reading the sketch from the top:</p>
+      <ul>
+        <li><strong>Input:</strong> a window of ten time steps (0 to 9).</li>
+        <li><strong>PM2.5 branch:</strong> the PM2.5 field is normalised and passed through episode detection. FADE then combines the raw PM2.5 with a spatial-gradient term and a memory term, α·(PM2.5 − mem).</li>
+        <li><strong>Meteorology branch:</strong> 15 meteorological channels go through three parallel 3×3 convolutions with dilations 1, 2 and 4. The outputs are concatenated and reduced by a 1×1 convolution to 48 channels.</li>
+        <li><strong>Fusion:</strong> the two branches are added and fed to a three-cell ConvLSTM with hidden size 96.</li>
+        <li><strong>Output:</strong> the final cell state goes through wind warp and an episode detector, then a decoder with spatial attention.</li>
+        <li><strong>Loss:</strong> global SMAPE, plus an episode-focused SMAPE term weighted by α, plus a Pearson-correlation term weighted by β.</li>
+      </ul>
+    </section>
+    <section class="detail-section">
+      <h2>The experience</h2>
+      <p>It was a sleepless night of intense brainstorming, wrapping our heads around Windwarp and FADE, and a chance to learn from some of the brightest minds. We interacted with researchers and mentors including Rahul Sundar and Siddharthan Dileep, and seeing a limitation in our design picked out from a rough sketch was a lesson in how experienced researchers read a model.</p>
+      <figure class="case-visual case-photo"><img src="aisehack-team.jpg" alt="A group of ten students standing together in a seminar room, smiling, with a projector screen behind them" width="1600" height="1200" loading="lazy" decoding="async"><figcaption>Three teams from NMIMS at AISEHack 2026.</figcaption></figure>
+      <p>Thank you to the Anusandhan National Research Foundation (ANRF), the Indian Institute of Technology Delhi, Ponnurangam Kumaraguru (PK), and E-Cell IIIT Hyderabad for organising the event, and to my teammates Meet Patel, Mohammad Saad Nathani, Kartik Soni, and Anushka Sharma.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Evidence and links</h2>
+      <ul class="evidence-list">
+        <li><a href="https://precog.iiit.ac.in/aisehack/past-editions/edition-1" class="icon-link"><img class="platform-icon" src="../assets/icons/document.svg" alt="" aria-hidden="true" width="18" height="18">Official track result <span class="external-arrow" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://github.com/kartiks15/ANRF_AISEHack_VibeCoders" class="icon-link repository-link"><img class="platform-icon" src="../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">Team repository <span class="external-arrow" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://drive.google.com/file/d/16dUQPQ_1d0vHWP6nEnu2f8lM_Ie1vkV6/view" class="icon-link"><img class="platform-icon" src="../assets/icons/googledrive.svg" alt="" aria-hidden="true" width="18" height="18">Submission report <span class="external-arrow" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://drive.google.com/file/d/1_hshWcapUWwVLjvo83h8opEsP8ZbSe4a/view" class="icon-link"><img class="platform-icon" src="../assets/icons/googledrive.svg" alt="" aria-hidden="true" width="18" height="18">Submission slides <span class="external-arrow" aria-hidden="true">↗</span></a></li>
+      </ul>
+    </section>
+    <nav class="case-navigation" aria-label="Case-study navigation"><a href="../projects/distributed-ml/" class="case-next"><span>Next case study →</span><strong>Distributed-ML</strong></a></nav>
+  </main>
+  <footer class="container site-footer">
+    <p>Pranav Mundhra · AI/ML engineering and research</p>
+    <a href="mailto:pranavmundhra2005@gmail.com" class="icon-link"><img class="platform-icon" src="../assets/icons/mail.svg" alt="" aria-hidden="true" width="18" height="18">Let's connect <span class="external-arrow" aria-hidden="true">↗</span></a>
+  </footer>
+</body>
+</html>
+

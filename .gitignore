@@ -1,0 +1,19 @@
+# Dependencies, OS and editor files
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.claude/
+graphify-out/
+
+# Private working files: planning notes, parked pages and QA output
+notes/
+_archive/
+.qa/
+
+# Original photos: the site uses the resized copies in assets/ and aisehack/
+/IMG*.jpg
+assets/pranav-portrait.jpg
+aisehack/Aisehack Architecture.jpeg
+aisehack/Aisehack Group Pic.jpg
