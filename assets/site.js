@@ -205,7 +205,10 @@ if (!reducedMotion.matches && window.matchMedia('(hover: hover) and (pointer: fi
     if (!frame) frame = window.requestAnimationFrame(follow);
   }, { passive: true });
   window.addEventListener('pointerdown', (event) => { if (event.pointerType !== 'touch') [dot, ring].forEach((item) => item.classList.add('is-down')); });
-  window.addEventListener('pointerup', () => [dot, ring].forEach((item) => item.classList.remove('is-down')));
+  // Also release the pressed state when the button comes up outside the window or the gesture is cancelled.
+  const release = () => [dot, ring].forEach((item) => item.classList.remove('is-down'));
+  ['pointerup', 'pointercancel', 'dragend'].forEach((name) => window.addEventListener(name, release));
+  window.addEventListener('blur', release);
   root.addEventListener('mouseleave', () => root.classList.remove('cursor-on'));
 }
 
