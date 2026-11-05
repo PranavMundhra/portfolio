@@ -153,6 +153,62 @@ if (!reducedMotion.matches && window.matchMedia('(hover: hover) and (pointer: fi
   }
 }
 
+// Custom cursor: a dot that tracks the pointer exactly and a ring that eases behind it. The ring grows over links and
+// buttons, becomes a slim caret over text so it still reads as selectable, and shrinks while pressed.
+// Mouse and pen only; skipped for touch and reduced motion, and form fields keep the native cursor.
+if (!reducedMotion.matches && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const root = document.documentElement;
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  const ring = document.createElement('div');
+  ring.className = 'cursor-ring';
+  ring.append(document.createElement('i'));
+  [dot, ring].forEach((item) => item.setAttribute('aria-hidden', 'true'));
+  document.body.append(dot, ring);
+  const INTERACTIVE = 'a, button, summary, label, [role="button"]';
+  const TEXT = 'p, li, h1, h2, h3, figcaption, dt, dd, td, th, blockquote, code';
+  const NATIVE = 'input, textarea, select, [contenteditable="true"]';
+  const goal = { x: 0, y: 0 };
+  const eased = { x: 0, y: 0 };
+  let started = false;
+  let frame = 0;
+  const place = (element, x, y) => { element.style.transform = `translate3d(${x}px, ${y}px, 0)`; };
+  const follow = () => {
+    frame = 0;
+    eased.x += (goal.x - eased.x) * 0.2;
+    eased.y += (goal.y - eased.y) * 0.2;
+    place(ring, eased.x, eased.y);
+    if (Math.abs(goal.x - eased.x) > 0.1 || Math.abs(goal.y - eased.y) > 0.1) frame = window.requestAnimationFrame(follow);
+  };
+  const setState = (target) => {
+    const element = target instanceof Element ? target : null;
+    const native = !!element?.closest(NATIVE);
+    const link = !native && !!element?.closest(INTERACTIVE);
+    const text = !native && !link && !!element?.closest(TEXT);
+    root.classList.toggle('cursor-native', native);
+    [dot, ring].forEach((item) => { item.classList.toggle('is-link', link); item.classList.toggle('is-text', text); });
+  };
+  window.addEventListener('pointermove', (event) => {
+    if (event.pointerType === 'touch') return;
+    goal.x = event.clientX;
+    goal.y = event.clientY;
+    if (!started) {
+      // The real cursor is only hidden once the pointer's position is known, so it never vanishes unseen.
+      started = true;
+      eased.x = goal.x;
+      eased.y = goal.y;
+      root.classList.add('custom-cursor');
+    }
+    root.classList.add('cursor-on');
+    place(dot, goal.x, goal.y);
+    setState(event.target);
+    if (!frame) frame = window.requestAnimationFrame(follow);
+  }, { passive: true });
+  window.addEventListener('pointerdown', (event) => { if (event.pointerType !== 'touch') [dot, ring].forEach((item) => item.classList.add('is-down')); });
+  window.addEventListener('pointerup', () => [dot, ring].forEach((item) => item.classList.remove('is-down')));
+  root.addEventListener('mouseleave', () => root.classList.remove('cursor-on'));
+}
+
 // Highlight the nav link for the section nearest the middle of the screen.
 const navLinks = [...document.querySelectorAll('.section-nav a[href^="#"]')];
 if (navLinks.length) {

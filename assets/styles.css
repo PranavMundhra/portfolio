@@ -290,6 +290,20 @@ body.home { overflow-x: clip; }
 .dot-field { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 html.dot-canvas body::before { display: none; }
 body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: radial-gradient(circle at center, rgb(158 114 211 / .2) 1.1px, transparent 1.7px); background-size: var(--grid) var(--grid); }
+/* Custom cursor (mouse only, added by assets/site.js): a dot that tracks the pointer and a ring that eases behind it.
+   The blend mode keeps both visible over the dark page and the bright photos. */
+html.custom-cursor, html.custom-cursor * { cursor: none; }
+html.cursor-native, html.cursor-native * { cursor: auto; }
+.cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none; opacity: 0; mix-blend-mode: difference; transition: opacity .2s ease; }
+html.cursor-on .cursor-dot, html.cursor-on .cursor-ring { opacity: 1; }
+html.cursor-native .cursor-dot, html.cursor-native .cursor-ring { opacity: 0; }
+.cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #d5b2f0; transition: opacity .2s ease, transform .18s ease; }
+.cursor-ring > i { position: absolute; left: 0; top: 0; width: 32px; height: 32px; border: 1.5px solid #d5b2f0; border-radius: 50%; transform: translate(-50%, -50%); transition: width .22s ease, height .22s ease, border-radius .22s ease, background-color .22s ease, transform .15s ease; }
+.cursor-ring.is-link > i { width: 56px; height: 56px; background-color: rgb(213 178 240 / .2); }
+.cursor-ring.is-text > i { width: 3px; height: 26px; border-radius: 2px; background-color: #d5b2f0; }
+.cursor-ring.is-down > i { transform: translate(-50%, -50%) scale(.78); }
+.cursor-dot.is-link, .cursor-dot.is-text { transform: scale(0); }
+.cursor-dot.is-down { transform: scale(1.5); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
@@ -298,7 +312,7 @@ body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-even
 }
 @media print {
   body { background: var(--print-bg); color: var(--print-text); font-size: 11pt; }
-  .skip-link, button, .site-footer, .case-navigation, .section-nav, .dot-field { display: none !important; }
+  .skip-link, button, .site-footer, .case-navigation, .section-nav, .dot-field, .cursor-dot, .cursor-ring { display: none !important; }
   .home .band::before, body::before { display: none; }
   .reveal { opacity: 1 !important; transform: none !important; }
   .container { width: 100%; max-width: none; }
