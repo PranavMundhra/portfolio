@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A FastAPI inference gateway with round-robin routing across registered CPU workers, heartbeat failure detection, and Lamport-clock request traces.">
   <link rel="preload" href="../../assets/fonts/doto-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="canonical" href="https://pranavmundhra.github.io/portfolio/projects/distributed-ml/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Pranav Mundhra">
+  <meta property="og:title" content="Distributed-ML — Pranav Mundhra">
+  <meta property="og:description" content="A FastAPI inference gateway with round-robin routing across registered CPU workers, heartbeat failure detection, and Lamport-clock request traces.">
+  <meta property="og:url" content="https://pranavmundhra.github.io/portfolio/projects/distributed-ml/">
+  <meta property="og:image" content="https://pranavmundhra.github.io/portfolio/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#120f19">
   <title>Distributed-ML — Pranav Mundhra</title>
   <link rel="stylesheet" href="../../assets/styles.css">
@@ -21,7 +32,7 @@
     </div>
     <section class="detail-section">
       <h2>What exists today</h2>
-      <p>A FastAPI gateway and two registered CPU workers run as separate processes. The gateway routes each prediction round-robin among workers that advertise the requested model, and serves three fixed models: Iris classification, house-price regression, and male/female face-image classification (the last two as ONNX).</p><p>Workers register themselves and send heartbeats, so the gateway detects silent workers and stops routing to them. Lamport clocks stamp each request, so the UI can show the exact path and ordering of every prediction. A worker dashboard shows live status, and the system distinguishes unavailable workers (503), timeouts (504), and invalid responses (502).</p><p>The repository was started on 11 October 2026 and has grown through six verified milestones, most recently two-PC LAN launchers on 24 October.</p>
+      <p>A FastAPI gateway and two registered CPU workers run as separate processes. The gateway routes each prediction round-robin among workers that advertise the requested model, and serves three fixed models: Iris classification, house-price regression, and male/female face-image classification (the last two as ONNX).</p><p>Workers register themselves and send heartbeats, so the gateway detects silent workers and stops routing to them. Lamport clocks stamp each request, so the UI can show the exact path and ordering of every prediction. A worker dashboard shows live status, and the system distinguishes unavailable workers (503), timeouts (504), and invalid responses (502).</p><p>It also runs across two PCs on a local network: the gateway and one worker on one machine, a second worker on another. The repository was started on 11 October 2026 and has grown through six verified milestones, most recently the LAN launchers on 24 October.</p>
     </section>
     <section class="detail-section">
       <h2>Request flow</h2>
@@ -33,7 +44,17 @@
     </section>
     <section class="detail-section">
       <h2>Tracing with Lamport clocks</h2>
-      <p>Each gateway and worker process keeps a logical counter that increases when it sends a message and merges as <code>max(local, remote) + 1</code> when it receives one. Every prediction in the interface shows a six-event trace with those timestamps and the identity of each process that handled it.</p><p>Traces carry no feature or image data. The gateway keeps the latest 200, and failures produce explicit partial traces. The timestamps describe ordering, not milliseconds or synchronised physical clocks.</p>
+      <p>Each gateway and worker process keeps a logical counter that increases when it sends a message and merges as <code>max(local, remote) + 1</code> when it receives one. Every prediction in the interface shows a six-event trace with those timestamps and the identity of each process that handled it.</p><p>Traces carry no feature or image data. The gateway keeps the latest 200, and failures produce explicit partial traces. The timestamps describe ordering, not milliseconds or synchronised physical clocks.</p><p>Why logical clocks: the wall clocks of two separate PCs can't be compared, so their timestamps can't order events. A logical counter gives every request a trace whose causal order can be checked on any machine. The gateway already sees every request, so the clocks add little to routing itself. I included them to make cross-machine ordering visible and verifiable, and as a distributed-systems learning goal.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Running across two PCs</h2>
+      <p>The LAN setup puts the gateway and Worker 1 on PC 1 and Worker 2 on PC 2. Each worker holds its own copy of the three models, and each request runs entirely on one worker, so only the request and its result cross the network.</p>
+      <ul>
+        <li><strong>Launchers:</strong> a single command starts the gateway or a worker on a chosen private LAN address. It refuses <code>localhost</code>, wildcard and public addresses, checks that the address belongs to the PC and that the port is free, and lets a worker test its connection to the gateway before it starts.</li>
+        <li><strong>Verification:</strong> a checker waits for both workers to register and send heartbeats, and requires two distinct worker addresses. It then sends 24 real predictions, six each for Iris, house price and two face-image samples. Each group must alternate 3 and 3 between the workers, and every response must carry a valid six-event Lamport trace.</li>
+        <li><strong>Failure demo:</strong> stopping Worker 2 on PC 2 lets its heartbeat expire after about 8 seconds, after which new requests go to Worker 1. Restarting Worker 2 brings it back into the rotation.</li>
+        <li><strong>Network setup:</strong> the guide covers the Windows firewall rules, a port-reachability test in both directions, and the case where a Wi-Fi network isolates its clients.</li>
+      </ul>
     </section>
     <section class="detail-section">
       <h2>The three models</h2>
@@ -41,14 +62,14 @@
     </section>
     <section class="detail-section">
       <h2>Validation</h2>
-      <p>The repository's latest recorded run passes 361 tests covering gateway routing, worker registration, heartbeats, Lamport traces, the fixed models, the dashboard, the LAN launchers, and the UI. Separate smoke scripts start real gateway and worker processes and check alternating routing, heartbeat expiry, survivor routing, worker restart, and gateway restart recovery.</p><p>A one-PC rehearsal of the LAN tooling also passed. These results are as recorded in the repository; I have not re-run them for this page.</p>
+      <p>The repository's latest recorded run passes 361 tests covering gateway routing, worker registration, heartbeats, Lamport traces, the fixed models, the dashboard, the LAN launchers, and the UI. Separate smoke scripts start real gateway and worker processes and check alternating routing, heartbeat expiry, survivor routing, worker restart, and gateway restart recovery.</p><p>The LAN tooling has its own 35 tests, plus a scripted rehearsal that starts real gateway and worker processes on a private interface, checks routing and traces, stops and restarts a worker, and restarts the gateway. These results are as recorded in the repository; I have not re-run them for this page.</p>
     </section>
     <section class="detail-section">
       <h2>Current boundaries</h2>
-      <p>Everything has run on one PC. The two-PC LAN tooling is built and rehearsed on one machine, but a run across two physical machines is still pending.</p><ul><li>The gateway is a single point of failure by design, because leader election was left out of scope, and its worker registry lives in memory.</li><li>A failed prediction is returned without retry; only new requests avoid the failed worker.</li><li>Model files are copied to each worker by hand. There is no automatic model distribution yet.</li><li>Uploading an image is an inference input, not a new model. Public model upload, authentication and arbitrary model schemas are deferred.</li><li>Latency, throughput and recovery-time benchmarks have not been run, and least-loaded scheduling is not implemented.</li></ul>
+      <p>The setup is deliberately small: one gateway and one worker per PC, on a trusted local network.</p><ul><li>The gateway is a single point of failure by design, because leader election was left out of scope, and its worker registry lives in memory.</li><li>A failed prediction is returned without retry; only new requests avoid the failed worker.</li><li>Model files are copied to each worker by hand. There is no automatic model distribution yet.</li><li>Uploading an image is an inference input, not a new model. Public model upload, authentication and arbitrary model schemas are deferred.</li><li>Latency, throughput and recovery-time benchmarks have not been run, and least-loaded scheduling is not implemented.</li></ul>
     </section>
     <section class="detail-section">
-      <h2>Future direction</h2><p>My goal is a shared inference platform where users can submit their trained models and other users can run predictions without installing those models on their own systems. The next steps are the two-PC run, benchmarks, and retry and failover for in-flight requests, before model upload is attempted.</p></section><section class="detail-section"><h2>Evidence and links</h2>
+      <h2>Future direction</h2><p>My goal is a shared inference platform where users can submit their trained models and other users can run predictions without installing those models on their own systems. The next steps are latency and throughput benchmarks, and retry and failover for in-flight requests, before model upload is attempted.</p></section><section class="detail-section"><h2>Evidence and links</h2>
       <ul class="evidence-list">
         <li><a href="https://github.com/PranavMundhra/Distributed-ML" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">Repository <span class="external-arrow" aria-hidden="true">↗</span></a></li>
         <li><a href="https://github.com/PranavMundhra/Distributed-ML/blob/main/app/coordinator/main.py" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">Gateway implementation <span class="external-arrow" aria-hidden="true">↗</span></a></li>
@@ -57,6 +78,8 @@
         <li><a href="https://github.com/PranavMundhra/Distributed-ML/blob/main/tests/test_gateway.py" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">Gateway tests <span class="external-arrow" aria-hidden="true">↗</span></a></li>
         <li><a href="https://github.com/PranavMundhra/Distributed-ML/blob/main/docs/PROJECT_PLAN.md" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">Project plan and verification log <span class="external-arrow" aria-hidden="true">↗</span></a></li>
         <li><a href="https://github.com/PranavMundhra/Distributed-ML/blob/main/docs/DEMO_MODELS.md" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">Model guide and evaluation <span class="external-arrow" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://github.com/PranavMundhra/Distributed-ML/blob/main/scripts/run_lan.py" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">LAN launcher <span class="external-arrow" aria-hidden="true">↗</span></a></li>
+        <li><a href="https://github.com/PranavMundhra/Distributed-ML/blob/main/scripts/check_lan.py" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">LAN checker <span class="external-arrow" aria-hidden="true">↗</span></a></li>
         <li><a href="https://github.com/PranavMundhra/Distributed-ML/blob/main/docs/LAN_DEMO.md" class="icon-link repository-link"><img class="platform-icon" src="../../assets/icons/github.svg" alt="" aria-hidden="true" width="18" height="18">Two-PC LAN demonstration guide <span class="external-arrow" aria-hidden="true">↗</span></a></li>
       </ul>
     </section>

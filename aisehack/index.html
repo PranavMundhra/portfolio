@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="VibeCoders' Pollution Forecasting track win, Pranav Mundhra's contribution, and supporting evidence.">
   <link rel="preload" href="../assets/fonts/doto-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="canonical" href="https://pranavmundhra.github.io/portfolio/aisehack/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Pranav Mundhra">
+  <meta property="og:title" content="AISEHack 2026 — Pranav Mundhra">
+  <meta property="og:description" content="VibeCoders' Pollution Forecasting track win, Pranav Mundhra's contribution, and supporting evidence.">
+  <meta property="og:url" content="https://pranavmundhra.github.io/portfolio/aisehack/">
+  <meta property="og:image" content="https://pranavmundhra.github.io/portfolio/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#120f19">
   <title>AISEHack 2026 — Pranav Mundhra</title>
   <link rel="stylesheet" href="../assets/styles.css">
@@ -21,19 +32,19 @@
     </div>
     <section class="detail-section">
       <h2>The problem and outcome</h2>
-      <p>The task was to forecast PM2.5 concentrations using meteorological and emission information. VibeCoders won first place in the Pollution Forecasting track at the event held at IIIT Hyderabad on 4–5 April 2026.</p><p>The official archive identifies the team and lists Pranav Mundhra as its lead.</p>
+      <p>The task was to forecast PM2.5 concentrations using meteorological and emission information. VibeCoders won first place in the Pollution Forecasting track at the event held at IIIT Hyderabad on 4–5 April 2026.</p><p>The official archive identifies the team and lists Pranav Mundhra as its lead.</p><p>It was the first edition of AISEHack, with 50+ finalist teams across the flood-detection and pollution-forecasting tracks and the top three placed in each. The official results list placings, not scores, so I don't quote one here; the team's submission report and slides carry the detail.</p>
     </section>
     <section class="detail-section">
       <h2>My contribution</h2>
-      <p>I led VibeCoders and proposed and integrated FADE into the team's pollution-forecasting model architecture, working through FADE and the wind-warp component with the team during an overnight brainstorm.</p>
+      <p>I led VibeCoders and proposed and integrated FADE, the Fractional Advection–Diffusion Equation, which models how particles move through air, into the team's pollution-forecasting model. We worked through FADE and the wind-warp component together during an overnight brainstorm.</p>
     </section>
     <section class="detail-section">
       <h2>Team and approach</h2>
-      <p>VibeCoders: Pranav Mundhra, Kartik Soni, Meet Patel, Mohammad Saad Nathani, and Anushka Sharma.</p><p>The model forecasts PM2.5 across India 16 hours ahead on a 140×124 grid, using a ConvLSTM encoder–decoder with physics-informed wind warping, because pollution moves with the wind. The submission report and slides document the full approach.</p>
+      <p>VibeCoders: Pranav Mundhra, Kartik Soni, Meet Patel, Mohammad Saad Nathani, and Anushka Sharma.</p><p>The model forecasts PM2.5 across India 16 hours ahead on a 140×124 grid, using a ConvLSTM encoder–decoder with physics-informed wind warping, because pollution moves with the wind.</p><p>The input is ten hours of history with 15 meteorological and emission variables. The team's base ConvLSTM (three layers, hidden size 96) trained for 20 epochs in about 10 hours on a single Tesla T4, and its loss combines episode-weighted and global SMAPE with a spatial-gradient and a correlation term.</p>
     </section>
     <section class="detail-section">
       <h2>The architecture, as sketched at the hackathon</h2>
-      <p>This rough hand-drawn diagram is how we presented the model at the hackathon. One of the most memorable moments for me was watching Sri Harsha Kota identify a major limitation in our architecture from this sketch in a single glance.</p><figure class="case-visual case-photo"><a href="aisehack-architecture.jpg"><img src="aisehack-architecture.jpg" alt="Hand-drawn architecture diagram on lined paper: a ten-step input window feeds a PM2.5 branch with episode detection and FADE and a meteorology branch with three dilated convolutions, both merged into a three-cell ConvLSTM, followed by wind warp, an episode detector, a spatial-attention decoder and the loss" width="1280" height="720" loading="lazy" decoding="async"></a><figcaption>Hand-drawn architecture sketch from the hackathon. Select the image to open it full size.</figcaption></figure>
+      <p>This rough hand-drawn diagram is how we presented the model at the hackathon. One of the most memorable moments for me was watching Sri Harsha Kota spot a limitation in our architecture from this sketch at a glance: the model forecasts PM2.5 on its own and does not model the chemical reactions between pollutants. That was a deliberate scope choice, since the hackathon's objective was PM2.5.</p><figure class="case-visual case-photo"><a href="aisehack-architecture.jpg"><img src="aisehack-architecture.jpg" alt="Hand-drawn architecture diagram on lined paper: a ten-step input window feeds a PM2.5 branch with episode detection and FADE and a meteorology branch with three dilated convolutions, both merged into a three-cell ConvLSTM, followed by wind warp, an episode detector, a spatial-attention decoder and the loss" width="1280" height="720" loading="lazy" decoding="async"></a><figcaption>Hand-drawn architecture sketch from the hackathon. Select the image to open it full size.</figcaption></figure>
       <p>Reading the sketch from the top:</p>
       <ul>
         <li><strong>Input:</strong> a window of ten time steps (0 to 9).</li>

@@ -17,3 +17,6 @@ _archive/
 assets/pranav-portrait.jpg
 aisehack/Aisehack Architecture.jpeg
 aisehack/Aisehack Group Pic.jpg
+
+# Tailored resume copies stay local; publish only the neutral-named PDF
+resume/*Prodigal*

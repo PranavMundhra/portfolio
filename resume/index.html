@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A readable overview of Pranav Mundhra's AI/ML interests, education, selected projects, and backend experience.">
   <link rel="preload" href="../assets/fonts/doto-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="canonical" href="https://pranavmundhra.github.io/portfolio/resume/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Pranav Mundhra">
+  <meta property="og:title" content="Pranav Mundhra — Resume Overview">
+  <meta property="og:description" content="A readable overview of Pranav Mundhra's AI/ML interests, education, selected projects, and backend experience.">
+  <meta property="og:url" content="https://pranavmundhra.github.io/portfolio/resume/">
+  <meta property="og:image" content="https://pranavmundhra.github.io/portfolio/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#120f19">
   <title>Pranav Mundhra — Resume Overview</title>
   <link rel="stylesheet" href="../assets/styles.css">
@@ -17,27 +28,31 @@
       <a class="back-link" href="../">← Back to overview</a>
       <p class="eyebrow">Resume overview</p>
       <h1>Pranav Mundhra — Resume Overview</h1>
-      <p class="lead">Final-year B.Tech student in Artificial Intelligence &amp; Machine Learning at SVKM's NMIMS MPSTME, graduating in 2027.</p>
+      <p class="lead">Final-year B.Tech student in Artificial Intelligence &amp; Machine Learning at SVKM's NMIMS MPSTME, graduating in 2027. Looking for an ML engineering internship.</p>
     </div>
     <section class="detail-section">
-      <h2>Profile</h2>
-      <p>Interested in AI/ML engineering and research, followed by data science and software engineering. Work spans pollution forecasting, federated learning, conversational AI, computer vision, optimization tools, and backend systems.</p><p>Nagpur, Maharashtra, India · <a href="mailto:pranavmundhra2005@gmail.com" class="icon-link"><img class="platform-icon" src="../assets/icons/mail.svg" alt="" aria-hidden="true" width="18" height="18">pranavmundhra2005@gmail.com</a></p><button type="button" data-print hidden>Print this overview</button>
+      <h2>Summary</h2>
+      <p>Final-year AI/ML student who turns ideas into working, tested software, looking for an ML engineering internship. Built a Hindi, English and Marathi translation pipeline as a Backend & AI Intern at Finkeep, and led the team that won AISEHack 2026.</p><p>Nagpur, Maharashtra, India · <a href="mailto:pranavmundhra2005@gmail.com" class="icon-link"><img class="platform-icon" src="../assets/icons/mail.svg" alt="" aria-hidden="true" width="18" height="18">pranavmundhra2005@gmail.com</a></p><p><a class="button primary icon-link" href="Pranav_Mundhra_Resume.pdf" download><img class="platform-icon" src="../assets/icons/document.svg" alt="" aria-hidden="true" width="18" height="18">Download resume (PDF) <span aria-hidden="true">↓</span></a></p><button type="button" data-print hidden>Print this overview</button>
+    </section>
+    <section class="detail-section">
+      <h2>Skills</h2>
+      <ul><li><strong>Machine learning:</strong> PyTorch, TensorFlow and Keras, scikit-learn, Flower (federated learning), ONNX, NumPy, pandas</li><li><strong>LLM applications:</strong> Gemini and Mistral, LangChain, Pydantic structured output, sentence embeddings, IndicTrans2</li><li><strong>Backend and data:</strong> Python, FastAPI, SQL and PostgreSQL (procedures, functions, triggers), Neo4j and Cypher, Supabase</li><li><strong>Engineering:</strong> pytest, GitHub Actions, Git, Streamlit</li><li><strong>Leadership:</strong> Treasurer, ACM Student Chapter (since November 2025); team lead, AISEHack 2026 winning team</li></ul>
     </section>
     <section class="detail-section">
       <h2>Experience</h2>
-      <h3>Finkeep — Backend &amp; AI Developer</h3><p>May–June 2026 · Client project: ICAI Nagpur Branch institutional platform.</p><ul><li>Designed the initial PostgreSQL schema on Supabase for a platform addressing eight user roles and more than 40 features.</li><li>Built a Hindi, English, and Marathi translation pipeline using IndicTrans2.</li></ul><p>The platform serves CA members, students, employers, and branch administration. The role and feature counts describe the platform's scope.</p>
+      <h3>Finkeep — Backend &amp; AI Intern</h3><p>May–June 2026 · Client project: ICAI Nagpur Branch institutional web platform.</p><ul><li>Built the platform's translation pipeline, my main contribution, which converts content between Hindi, English and Marathi using IndicTrans2.</li><li>Designed the initial PostgreSQL database on Supabase, with role-based access for 8 user types and 40+ features, for CA members, students, employers and branch staff.</li></ul>
     </section>
     <section class="detail-section">
-      <h2>Education</h2>
-      <h3>SVKM's NMIMS MPSTME</h3><p>B.Tech, Artificial Intelligence &amp; Machine Learning · 2023–2027.</p><p>CGPA: 3.41/4.00</p>
+      <h2>Projects</h2>
+      <ul><li><a href="../projects/distributed-ml/">Distributed ML Inference Platform</a> (October 2026) — a FastAPI gateway that checks each request and sends it round robin to the next available worker across two PCs on a LAN; workers register automatically, a silent worker is dropped after 8 seconds and rejoins on restart; request tracing with Lamport clocks, a live dashboard and 361 tests.</li><li><a href="../projects/wind-turbine/">Federated Fault Detection for Wind Turbines</a> (team capstone, June 2026 – present) — federated learning for early fault detection on wind-turbine data, with reproducible, tested, open-source code; paper in preparation.</li><li>Emotion-Based Anime Recommender (October 2025) — a LangChain chatbot using Gemini and Mistral that learns mood and tastes over six turns, returns validated JSON via Pydantic with safe fallbacks, ranks candidates by sentence-embedding similarity and has the LLM explain the top picks. Being fixed.</li><li><a href="../projects/ottools/">OTTools</a> (April 2025) — co-authored a PyPI package for linear-programming and transportation problems (Simplex, Big-M, VAM, MODI) and built its Streamlit interface.</li><li>Also: Diabetic Retinopathy (team), <a href="../projects/voicerx/">VoiceRX</a> (team, Streamlit interface), BusNexus, RUL-Prediction-PVDAQ.</li></ul>
     </section>
     <section class="detail-section">
-      <h2>Selected work</h2>
-      <ul><li><a href="../aisehack/">AISEHack 2026</a> — led VibeCoders, first-place Pollution Forecasting track team; proposed and integrated FADE.</li><li><a href="../projects/distributed-ml/">Distributed-ML</a> — FastAPI inference gateway with round-robin routing, heartbeat failure detection, and Lamport-clock traces across CPU workers.</li><li><a href="../projects/wind-turbine/">Wind-Turbine</a> — college capstone on federated learning for wind-turbine fault detection; paper in preparation.</li><li><a href="../projects/ottools/">OTTools</a> — coauthored optimization toolkit with a Streamlit interface.</li><li>Emotion-Based Anime Recommender — conversational preferences, semantic ranking, and generated explanations (being fixed).</li><li>Diabetic Retinopathy — team computer-vision project (contributor).</li><li>BusNexus — Streamlit and PostgreSQL booking prototype.</li><li><a href="../projects/voicerx/">VoiceRX</a> — team clinical-notes platform; built the entire Streamlit user interface.</li></ul>
+      <h2>Achievements</h2>
+      <ul><li><a href="../aisehack/">Winner, Pollution Forecasting track — AISEHack 2026</a> (IIIT Hyderabad, April 2026). Led team VibeCoders to forecast PM2.5 across India 16 hours ahead with a ConvLSTM model; proposed and added FADE (Fractional Advection–Diffusion Equation), which models how particles move in air.</li><li>SAS Curiosity Cup 2026 — participant.</li></ul>
     </section>
     <section class="detail-section">
-      <h2>Selected learning credentials</h2>
-      <ul><li>Deep Learning — IIT Ropar/NPTEL: Elite + Silver, 87%.</li><li>Neo4j Fundamentals and Cypher Fundamentals — Neo4j GraphAcademy.</li><li>SAS Curiosity Cup 2026 participant.</li></ul>
+      <h2>Education and certifications</h2>
+      <h3>SVKM's NMIMS MPSTME, Shirpur</h3><p>B.Tech, Artificial Intelligence &amp; Machine Learning · 2023–2027 · CGPA 3.41/4.00</p><ul><li>Deep Learning — IIT Ropar (NPTEL): Elite + Silver, 87%.</li><li>Neo4j and Cypher Fundamentals — Neo4j GraphAcademy.</li></ul>
     </section>
     <section class="detail-section">
       <h2>Evidence and links</h2>

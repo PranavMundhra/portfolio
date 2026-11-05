@@ -1,3 +1,12 @@
+/* Inter: open-licence UI font (SIL OFL, see assets/fonts/OFL-Inter.txt), self-hosted so every device renders the same. */
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/inter-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 /* Doto: open-licence dot-matrix display font (SIL OFL, see assets/fonts/OFL-Doto.txt), self-hosted. */
 @font-face {
   font-family: "Doto";
@@ -46,7 +55,7 @@
   --space-4: 32px;
   --space-5: 48px;
   --space-6: 64px;
-  --container: 1120px;
+  --container: 1180px;
   --gutter: 32px;
   --radius: 14px;
 }
@@ -78,6 +87,7 @@ p { margin-bottom: var(--space-3); }
 .hero h1 span { color: var(--heading); }
 .hero-position { color: var(--subheading); font-weight: 600; font-size: 23px; line-height: 1.45; letter-spacing: -.02em; margin-bottom: var(--space-3); }
 .intro { color: var(--text-muted); max-width: 580px; }
+.intro-link { color: var(--heading); font-weight: 600; text-decoration-color: var(--accent); white-space: nowrap; }
 .hero-links, .link-row, .card-links { display: flex; gap: 12px; flex-wrap: wrap; }
 .hero-links { margin-top: var(--space-3); }
 .button, .card-links a, .link-row a, .hero-links .profile-link, .detail-page button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 10px 16px; border: 1px solid var(--control); border-radius: 7px; background: var(--raised); color: var(--text); font-size: var(--size-detail); font-weight: 500; line-height: 1.5; text-decoration: none; cursor: pointer; transition: background .18s, border-color .18s; }
@@ -263,13 +273,6 @@ body.home { overflow-x: clip; }
 @media (hover: hover) {
   .home .project-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 12px 28px var(--shadow); }
 }
-/* Three project cards: one row on wide screens; an odd last card spans the row on two columns. */
-@media (min-width: 1000px) {
-  .home #projects .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (min-width: 721px) and (max-width: 999px) {
-  .home #projects .card-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
-}
 @media (max-width: 720px) {
   .home .section { padding-block: var(--space-5); }
   .home .hero { padding-bottom: var(--space-5); }
@@ -278,12 +281,12 @@ body.home { overflow-x: clip; }
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s cubic-bezier(.22,.61,.36,1) var(--reveal-delay, 0s), transform .6s cubic-bezier(.22,.61,.36,1) var(--reveal-delay, 0s); }
 .reveal.is-visible { opacity: 1; transform: none; }
 /* Dot-matrix headings: purple section titles on the homepage and titles on case-study pages. */
-.home h2, .detail-page h1, .detail-page h2 { font-family: "Doto", var(--mono); font-weight: 900; font-variation-settings: "ROND" 100; letter-spacing: .01em; line-height: 1.12; text-transform: uppercase; }
+.home h2, .detail-page h1, .detail-page h2 { font-family: "Doto", var(--mono); font-weight: 900; font-variation-settings: "ROND" 100; letter-spacing: .01em; line-height: 1.12; text-transform: uppercase; color: #ecdaff; text-shadow: 0 0 16px rgb(158 114 211 / .4); }
 .home h2 .heading-dot, .home h2::after, .detail-page h1::after, .detail-page h2::after { font-family: var(--sans); font-weight: 700; font-variation-settings: normal; }
-.home h2 { font-size: clamp(32px, 4.4vw, 44px); }
-.home .achievement-copy h2 { font-size: clamp(30px, 3.8vw, 38px); }
-.detail-page .detail-hero h1 { font-size: clamp(40px, 6vw, 60px); }
-.detail-page .detail-section h2 { font-size: clamp(28px, 3.4vw, 34px); }
+.home h2 { font-size: clamp(34px, 4.8vw, 48px); }
+.home .achievement-copy h2 { font-size: clamp(32px, 4vw, 42px); }
+.detail-page .detail-hero h1 { font-size: clamp(42px, 6.4vw, 64px); }
+.detail-page .detail-section h2 { font-size: clamp(30px, 3.6vw, 36px); }
 
 /* Dot-grid background: a faint fixed grid. With JavaScript it is drawn on a canvas (assets/site.js) so dots near the cursor can be pushed away from it. */
 :root { --grid: 24px; }
@@ -304,6 +307,55 @@ html.cursor-native .cursor-dot, html.cursor-native .cursor-ring { opacity: 0; }
 .cursor-ring.is-down > i { transform: translate(-50%, -50%) scale(.78); }
 .cursor-dot.is-link, .cursor-dot.is-text { transform: scale(0); }
 .cursor-dot.is-down { transform: scale(1.5); }
+/* Review fixes: status tags, the 1st badge, text legibility over the dot grid, project rows, skills, contact row. */
+.status { white-space: nowrap; }
+.status-published { color: #ecdaff; border-color: var(--accent); background: rgb(158 114 211 / .14); }
+.card-top > .mono { color: var(--text-muted); font-size: var(--size-detail); }
+.achievement-mark strong { color: var(--subheading); font-weight: 700; text-shadow: 0 0 30px rgb(158 114 211 / .5); }
+.achievement-mark strong span { color: var(--heading); }
+.team-label { color: var(--text-muted); letter-spacing: .08em; }
+.terminal-line span:last-child { color: var(--subheading); }
+/* A faint plate behind running text, so the dot grid and its cursor effect never compete with reading. */
+.hero-copy, .reading { position: relative; isolation: isolate; }
+.hero-copy::before, .reading::before { content: ""; position: absolute; inset: -14px calc(-1 * min(24px, var(--gutter))); z-index: -1; background: rgb(18 15 25 / .88); border-radius: 18px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); pointer-events: none; }
+.featured-grid { align-items: stretch; }
+.also-title { margin: var(--space-5) 0 var(--space-2); font-size: 22px; color: var(--subheading); }
+.also-built { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+.also-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-3); align-items: center; padding: var(--space-2) 0; border-bottom: 1px solid var(--border); }
+.also-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.also-head h4 { margin: 0; font-size: 19px; font-weight: 600; color: var(--subheading); letter-spacing: -.02em; }
+.also-item p { margin: 0; font-size: var(--size-detail); color: var(--text-muted); line-height: 1.6; max-width: 70ch; }
+.also-links.card-links { border-top: 0; padding-top: 0; justify-content: flex-end; }
+.background-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.background-item ul { margin: 0; padding-left: 18px; font-size: var(--size-detail); }
+.background-item li { margin-bottom: 8px; line-height: 1.6; }
+.skill-groups { margin: 0; }
+.skill-groups div + div { margin-top: var(--space-2); }
+.skill-groups dt { color: var(--subheading); font: 600 var(--size-detail)/1.5 var(--sans); }
+.skill-groups dd { margin: 2px 0 0; color: var(--text-muted); font-size: var(--size-detail); line-height: 1.6; }
+.contact-panel { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+.contact-actions .link-row { flex-wrap: nowrap; }
+@media (max-width: 1000px) {
+  .background-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .background-grid .skills { grid-column: 1 / -1; }
+  .contact-panel { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .also-item { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+  .also-links.card-links { justify-content: flex-start; }
+  .home .hero { padding-top: 76px; }
+  .hero .portrait { order: -1; justify-self: start; max-width: 190px; }
+  .portrait figcaption { display: none; }
+  .background-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 720px) {
+  /* Fade the right edge of the nav strip while more links are off-screen. */
+  .section-nav .container { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+  .section-nav.is-end .container { -webkit-mask-image: none; mask-image: none; }
+}
+@media (max-width: 520px) {
+  .contact-actions .link-row { flex-wrap: wrap; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }

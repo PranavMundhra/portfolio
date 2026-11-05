@@ -214,6 +214,11 @@ const navLinks = [...document.querySelectorAll('.section-nav a[href^="#"]')];
 if (navLinks.length) {
   const sections = navLinks.map((link) => ({ link, section: document.getElementById(link.hash.slice(1)) })).filter((item) => item.section);
   const navBar = navLinks[0].parentElement;
+  const navRoot = navBar.parentElement;
+  const syncEnd = () => navRoot.classList.toggle('is-end', navBar.scrollWidth <= navBar.clientWidth + 2 || navBar.scrollLeft + navBar.clientWidth >= navBar.scrollWidth - 2);
+  navBar.addEventListener('scroll', syncEnd, { passive: true });
+  window.addEventListener('resize', syncEnd);
+  syncEnd();
   let active;
   let queued = false;
   const update = () => {

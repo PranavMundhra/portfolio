@@ -33,6 +33,8 @@ Deploy the HTML folders and `assets/` together; links are relative, so the site 
 
 GitHub and LinkedIn icons are from [Bootstrap Icons](https://github.com/twbs/icons) (MIT, see `assets/icons/LICENSE-bootstrap.txt`). PyPI and Google Drive icons are from [Simple Icons](https://github.com/simple-icons/simple-icons) (CC0). The mail and document icons are local artwork. Platform marks remain subject to their owners' brand policies.
 
+Body text uses [Inter](https://github.com/rsms/inter) by The Inter Project Authors (SIL Open Font License 1.1), self-hosted in `assets/fonts/` with its licence text (`OFL-Inter.txt`), so every device renders the same.
+
 The dot-matrix headings use [Doto](https://github.com/oliverlalan/Doto) by The Doto Project Authors under the SIL Open Font License 1.1, self-hosted in `assets/fonts/` with its licence text (`OFL-Doto.txt`).
 
 Site content and photos © Pranav Mundhra. All rights reserved.
