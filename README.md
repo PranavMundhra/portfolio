@@ -1,6 +1,6 @@
 # Pranav Mundhra — portfolio
 
-A buildless static portfolio: plain HTML, CSS and a little JavaScript. There is nothing to install or compile, and no backend. Core content and navigation work without JavaScript. The script adds the print button on the resume page, the section-nav highlighting, scroll fade-ins, a cursor-following dot-grid glow and the surname typing effect, and it respects reduced-motion settings.
+A buildless static portfolio: plain HTML, CSS and a little JavaScript. There is nothing to install or compile, and no backend. Core content and navigation work without JavaScript. The script adds the print button on the resume page, the section-nav highlighting, scroll fade-ins, a dot grid that bulges outward around the cursor and the surname typing effect, and it respects reduced-motion settings.
 
 ## Local preview
 

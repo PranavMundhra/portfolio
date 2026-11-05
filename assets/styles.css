@@ -278,28 +278,27 @@ body.home { overflow-x: clip; }
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s cubic-bezier(.22,.61,.36,1) var(--reveal-delay, 0s), transform .6s cubic-bezier(.22,.61,.36,1) var(--reveal-delay, 0s); }
 .reveal.is-visible { opacity: 1; transform: none; }
 /* Dot-matrix headings: purple section titles on the homepage and titles on case-study pages. */
-.home h2, .detail-page h1, .detail-page h2 { font-family: "Doto", var(--mono); font-weight: 900; font-variation-settings: "ROND" 100; letter-spacing: .01em; line-height: 1.12; }
+.home h2, .detail-page h1, .detail-page h2 { font-family: "Doto", var(--mono); font-weight: 900; font-variation-settings: "ROND" 100; letter-spacing: .01em; line-height: 1.12; text-transform: uppercase; }
 .home h2 .heading-dot, .home h2::after, .detail-page h1::after, .detail-page h2::after { font-family: var(--sans); font-weight: 700; font-variation-settings: normal; }
 .home h2 { font-size: clamp(32px, 4.4vw, 44px); }
 .home .achievement-copy h2 { font-size: clamp(30px, 3.8vw, 38px); }
 .detail-page .detail-hero h1 { font-size: clamp(40px, 6vw, 60px); }
 .detail-page .detail-section h2 { font-size: clamp(28px, 3.4vw, 34px); }
 
-/* Dot-grid background: a faint fixed grid, plus a brighter patch that follows the cursor in grid steps. */
+/* Dot-grid background: a faint fixed grid. With JavaScript it is drawn on a canvas (assets/site.js) so dots near the cursor can be pushed away from it. */
 :root { --grid: 24px; }
+.dot-field { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+html.dot-canvas body::before { display: none; }
 body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: radial-gradient(circle at center, rgb(158 114 211 / .2) 1.1px, transparent 1.7px); background-size: var(--grid) var(--grid); }
-.dot-glow { position: fixed; left: 0; top: 0; width: 288px; height: 288px; z-index: -1; pointer-events: none; opacity: 0; background-image: radial-gradient(circle at center, rgb(213 178 240 / .95) 1.7px, transparent 2.3px); background-size: var(--grid) var(--grid); -webkit-mask-image: radial-gradient(circle closest-side, #000, transparent); mask-image: radial-gradient(circle closest-side, #000, transparent); transition: transform .18s cubic-bezier(.22,.61,.36,1), opacity .3s ease; will-change: transform; }
-.dot-glow.is-on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
-  .dot-glow { display: none; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .surname-animated.is-typing::after { display: none; }
 }
 @media print {
   body { background: var(--print-bg); color: var(--print-text); font-size: 11pt; }
-  .skip-link, button, .site-footer, .case-navigation, .section-nav, .dot-glow { display: none !important; }
+  .skip-link, button, .site-footer, .case-navigation, .section-nav, .dot-field { display: none !important; }
   .home .band::before, body::before { display: none; }
   .reveal { opacity: 1 !important; transform: none !important; }
   .container { width: 100%; max-width: none; }
