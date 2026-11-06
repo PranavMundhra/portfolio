@@ -16,13 +16,19 @@ npm run check
 
 The checker validates every HTML page: relative links and anchors, titles and descriptions, a single `h1`, skip links, image alt text, and leftover editorial placeholders. It does not check external services.
 
+## Case-study extras
+
+- **Listen:** `assets/listen.js` reads a case study aloud using the browser's built-in speech voices (Web Speech API). Nothing is uploaded, and the player does not appear in browsers without speech support. It offers play, pause, next and previous section, speed and voice, highlights the paragraph being read, and remembers the speed and voice.
+- **Diagrams:** each case study has inline SVG diagrams themed with the site colours (styles are under "Project diagrams" in `assets/styles.css`). Wide diagrams scroll sideways on small screens instead of shrinking.
+- **On this page:** a sticky section index appears from laptop width, built from the section headings by `assets/site.js`.
+
 ## Structure
 
 - `index.html`: homepage (about, AISEHack, currently building, projects, experience, contact).
 - `aisehack/`: AISEHack 2026 case study with the team photo and architecture sketch.
 - `projects/`: case studies for Distributed-ML, Wind-Turbine, OTTools and VoiceRX. Other projects appear as cards on the homepage without a case study.
 - `resume/`: HTML resume overview with browser print support.
-- `assets/`: `styles.css`, `personal.css`, `site.js`, the portrait and the icons.
+- `assets/`: `styles.css`, `personal.css`, `site.js` (page effects), `listen.js` (read aloud), fonts, the portrait and the icons.
 - `scripts/serve.mjs`: local-only preview server. `scripts/check-site.mjs`: the checker above.
 
 ## Deploying
