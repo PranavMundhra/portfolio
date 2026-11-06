@@ -178,7 +178,7 @@ h2:not(:has(.heading-dot))::after, .detail-hero h1::after { content: '.'; color:
 .icon-link > span[aria-hidden] { flex-shrink: 0; font-size: 16px; line-height: 1; }
 .external-arrow { display: inline-block; flex-shrink: 0; font-size: 16px; line-height: 1; margin-left: 3px; }
 /* Narrow reading columns share the same gutters as the homepage. */
-.reading { max-width: 720px; padding-block: var(--space-5); }
+.reading { max-width: 820px; padding-block: var(--space-5); }
 .back-link { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: var(--space-3); font-size: var(--size-detail); }
 .detail-hero { padding-bottom: var(--space-4); border-bottom: 1px solid var(--border); margin-bottom: var(--space-5); }
 .detail-hero h1 { font-size: 46px; margin-bottom: var(--space-3); }
@@ -356,6 +356,29 @@ html.cursor-native .cursor-dot, html.cursor-native .cursor-ring { opacity: 0; }
 @media (max-width: 520px) {
   .contact-actions .link-row { flex-wrap: wrap; }
 }
+/* Case studies scale with the screen: a wider column on tablets, and from laptop width a sticky "On this page" index beside
+   the reading column (the index is built by assets/site.js, so without JavaScript the page stays a single column). */
+.page-toc { display: none; }
+@media (min-width: 1100px) {
+  .reading.has-toc { --toc: 220px; --main: 820px; max-width: none; display: grid; grid-template-columns: var(--toc) minmax(0, var(--main)); column-gap: 48px; justify-content: center; align-content: start; }
+  .reading.has-toc > .detail-hero { grid-column: 1 / -1; }
+  .reading.has-toc > .detail-section, .reading.has-toc > .case-navigation { grid-column: 2; }
+  .reading.has-toc > .detail-section { margin-block: 0 var(--space-5); }
+  .reading.has-toc > .detail-section:first-of-type { margin-top: 0; }
+  .page-toc { display: block; grid-column: 1; grid-row: 2 / span 40; align-self: start; position: sticky; top: 28px; }
+  .toc-title { margin: 0 0 var(--space-2); color: var(--text-muted); font: 500 var(--size-label)/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+  .toc-title::before { content: '$ '; color: var(--accent); }
+  .page-toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--border); }
+  .page-toc li { margin: 0; }
+  .page-toc a { display: block; padding: 7px 0 7px 14px; margin-left: -1px; border-left: 2px solid transparent; color: var(--text-muted); font-size: var(--size-detail); line-height: 1.4; text-decoration: none; transition: color .15s ease, border-color .15s ease; }
+  .page-toc a:hover { color: var(--heading); }
+  .page-toc a[aria-current="true"] { color: var(--subheading); font-weight: 600; border-left-color: var(--accent); }
+}
+@media (min-width: 1500px) {
+  .reading.has-toc { --toc: 240px; --main: 900px; column-gap: 64px; }
+  .detail-page .container.reading { width: min(1320px, calc(100% - 2 * var(--gutter))); }
+  .reading.has-toc .detail-section p, .reading.has-toc .detail-section li { font-size: 17px; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
@@ -364,7 +387,7 @@ html.cursor-native .cursor-dot, html.cursor-native .cursor-ring { opacity: 0; }
 }
 @media print {
   body { background: var(--print-bg); color: var(--print-text); font-size: 11pt; }
-  .skip-link, button, .site-footer, .case-navigation, .section-nav, .dot-field, .cursor-dot, .cursor-ring { display: none !important; }
+  .skip-link, button, .site-footer, .case-navigation, .section-nav, .page-toc, .dot-field, .cursor-dot, .cursor-ring { display: none !important; }
   .home .band::before, body::before { display: none; }
   .reveal { opacity: 1 !important; transform: none !important; }
   .container { width: 100%; max-width: none; }

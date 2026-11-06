@@ -247,6 +247,57 @@ if (navLinks.length) {
   update();
 }
 
+// Case studies: build an "On this page" index from the section headings and highlight the section being read.
+// Only shown from laptop width (see the has-toc rules in styles.css); without JavaScript the page is a single column.
+const readingPage = document.querySelector('main.reading');
+const readingSections = readingPage ? [...readingPage.querySelectorAll(':scope > .detail-section')].filter((section) => section.querySelector('h2')) : [];
+if (readingPage && readingSections.length >= 3) {
+  const used = new Set([...document.querySelectorAll('[id]')].map((element) => element.id));
+  const toc = document.createElement('nav');
+  toc.className = 'page-toc';
+  toc.setAttribute('aria-label', 'On this page');
+  const title = document.createElement('p');
+  title.className = 'toc-title';
+  title.textContent = 'On this page';
+  const list = document.createElement('ol');
+  const entries = readingSections.map((section) => {
+    const heading = section.querySelector('h2');
+    let slug = heading.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
+    let unique = slug;
+    for (let n = 2; used.has(unique) && section.id !== unique; n += 1) unique = `${slug}-${n}`;
+    if (!section.id) section.id = unique;
+    used.add(section.id);
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = `#${section.id}`;
+    link.textContent = heading.textContent.trim();
+    item.append(link);
+    list.append(item);
+    return { section, link };
+  });
+  toc.append(title, list);
+  readingPage.querySelector(':scope > .detail-hero').after(toc);
+  readingPage.classList.add('has-toc');
+  let activeLink;
+  let tocQueued = false;
+  const updateToc = () => {
+    tocQueued = false;
+    const probe = window.innerHeight * 0.3;
+    const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+    let current = entries[0];
+    entries.forEach((entry) => { if (entry.section.getBoundingClientRect().top <= probe) current = entry; });
+    if (atBottom) current = entries[entries.length - 1];
+    if (current.link === activeLink) return;
+    activeLink?.removeAttribute('aria-current');
+    current.link.setAttribute('aria-current', 'true');
+    activeLink = current.link;
+  };
+  const scheduleToc = () => { if (!tocQueued) { tocQueued = true; window.requestAnimationFrame(updateToc); } };
+  window.addEventListener('scroll', scheduleToc, { passive: true });
+  window.addEventListener('resize', scheduleToc);
+  updateToc();
+}
+
 // The heading's full accessible name and layout remain stable during typing.
 const surname = document.querySelector('[data-type-surname]');
 if (surname) {
