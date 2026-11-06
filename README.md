@@ -18,9 +18,10 @@ The checker validates every HTML page: relative links and anchors, titles and de
 
 ## Case-study extras
 
-- **Listen:** `assets/listen.js` reads a case study aloud using the browser's built-in speech voices (Web Speech API). Nothing is uploaded, and the player does not appear in browsers without speech support. It offers play, pause, next and previous section, speed and voice, highlights the paragraph being read, and remembers the speed and voice.
+- **Layout:** a large dot-matrix title opens each case study and the text column is centred on the screen. Diagrams are slightly wider than the text.
+- **Listen:** `assets/listen.js` reads a case study aloud using the browser's built-in speech voices (Web Speech API). Nothing is uploaded, and the player does not appear in browsers without speech support. One button sits under the title, with speed and voice in a small settings popover. While audio plays, a slim control strip (play, pause, next and previous section, stop) appears under the top bar, the paragraph being read is highlighted, and the speed and voice are remembered. A small play icon beside each heading starts reading from that section.
 - **Diagrams:** each case study has inline SVG diagrams themed with the site colours (styles are under "Project diagrams" in `assets/styles.css`). Wide diagrams scroll sideways on small screens instead of shrinking.
-- **On this page:** a sticky section index appears from laptop width, built from the section headings by `assets/site.js`.
+- **On this page:** built from the section headings by `assets/site.js`. On wide screens it is a rail in the left margin; on smaller screens it is an Index dropdown in the slim top bar, which also shows reading progress.
 
 ## Structure
 

@@ -248,11 +248,13 @@ if (navLinks.length) {
 }
 
 // Case studies: build an "On this page" index from the section headings and highlight the section being read.
-// Only shown from laptop width (see the has-toc rules in styles.css); without JavaScript the page is a single column.
+// It appears as a rail in the left margin on wide screens and as an Index dropdown in the slim top bar everywhere else.
+// Without JavaScript the page is a single column.
 const readingPage = document.querySelector('main.reading');
 const readingSections = readingPage ? [...readingPage.querySelectorAll(':scope > .detail-section')].filter((section) => section.querySelector('h2')) : [];
 if (readingPage && readingSections.length >= 3) {
   const used = new Set([...document.querySelectorAll('[id]')].map((element) => element.id));
+  const hero = readingPage.querySelector(':scope > .detail-hero');
   const toc = document.createElement('nav');
   toc.className = 'page-toc';
   toc.setAttribute('aria-label', 'On this page');
@@ -260,6 +262,7 @@ if (readingPage && readingSections.length >= 3) {
   title.className = 'toc-title';
   title.textContent = 'On this page';
   const list = document.createElement('ol');
+  const menu = document.createElement('ol');
   const entries = readingSections.map((section) => {
     const heading = section.querySelector('h2');
     let slug = heading.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
@@ -267,30 +270,66 @@ if (readingPage && readingSections.length >= 3) {
     for (let n = 2; used.has(unique) && section.id !== unique; n += 1) unique = `${slug}-${n}`;
     if (!section.id) section.id = unique;
     used.add(section.id);
-    const item = document.createElement('li');
-    const link = document.createElement('a');
-    link.href = `#${section.id}`;
-    link.textContent = heading.textContent.trim();
-    item.append(link);
-    list.append(item);
-    return { section, link };
+    const links = [list, menu].map((target) => {
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = `#${section.id}`;
+      link.textContent = heading.textContent.trim();
+      item.append(link);
+      target.append(item);
+      return link;
+    });
+    return { section, links };
   });
   toc.append(title, list);
-  readingPage.querySelector(':scope > .detail-hero').append(toc);
+  (hero || readingPage.firstElementChild).after(toc);
   readingPage.classList.add('has-toc');
-  let activeLink;
+
+  // Slim top bar: back link, short title, Index dropdown and a reading-progress line. listen.js adds a play button to it.
+  const bar = document.createElement('div');
+  bar.className = 'reading-bar';
+  const back = document.createElement('a');
+  const backLink = hero && hero.querySelector('.back-link');
+  back.href = backLink ? backLink.getAttribute('href') : '../';
+  back.setAttribute('aria-label', 'Back to overview');
+  back.textContent = '←';
+  const barTitle = document.createElement('span');
+  barTitle.className = 'reading-title';
+  barTitle.textContent = hero && hero.querySelector('h1') ? hero.querySelector('h1').textContent.trim() : document.title;
+  const index = document.createElement('details');
+  index.className = 'reading-index';
+  const indexLabel = document.createElement('summary');
+  indexLabel.textContent = 'Index';
+  index.append(indexLabel, menu);
+  const progressLine = document.createElement('i');
+  progressLine.className = 'reading-progress';
+  bar.append(back, barTitle, index, progressLine);
+  document.body.append(bar);
+  if (hero) new IntersectionObserver(([entry]) => bar.classList.toggle('is-on', !entry.isIntersecting && entry.boundingClientRect.top < 0), { threshold: 0 }).observe(hero);
+  bar.addEventListener('click', (event) => { if (event.target.closest('.reading-index a')) index.open = false; });
+  document.addEventListener('click', (event) => { if (index.open && !index.contains(event.target)) index.open = false; });
+  window.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !index.open) return;
+    index.open = false;
+    indexLabel.focus();
+    event.stopImmediatePropagation();
+  });
+
+  let activeEntry;
   let tocQueued = false;
   const updateToc = () => {
     tocQueued = false;
     const probe = window.innerHeight * 0.3;
+    const room = document.documentElement.scrollHeight - window.innerHeight;
     const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+    progressLine.style.transform = `scaleX(${room > 0 ? Math.min(1, Math.max(0, window.scrollY / room)) : 0})`;
     let current = entries[0];
     entries.forEach((entry) => { if (entry.section.getBoundingClientRect().top <= probe) current = entry; });
     if (atBottom) current = entries[entries.length - 1];
-    if (current.link === activeLink) return;
-    activeLink?.removeAttribute('aria-current');
-    current.link.setAttribute('aria-current', 'true');
-    activeLink = current.link;
+    if (current === activeEntry) return;
+    activeEntry?.links.forEach((link) => link.removeAttribute('aria-current'));
+    current.links.forEach((link) => link.setAttribute('aria-current', 'true'));
+    activeEntry = current;
   };
   const scheduleToc = () => { if (!tocQueued) { tocQueued = true; window.requestAnimationFrame(updateToc); } };
   window.addEventListener('scroll', scheduleToc, { passive: true });

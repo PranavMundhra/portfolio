@@ -286,7 +286,7 @@ body.home { overflow-x: clip; }
 .home h2 { font-size: clamp(34px, 4.8vw, 48px); }
 .home .achievement-copy h2 { font-size: clamp(32px, 4vw, 42px); }
 .detail-page .detail-hero h1 { font-size: clamp(42px, 6.4vw, 64px); }
-.detail-page .detail-section h2 { font-size: clamp(30px, 3.6vw, 36px); }
+.detail-page .detail-section h2 { font-size: clamp(22px, 2.6vw, 30px); color: var(--heading); text-shadow: none; }
 
 /* Dot-grid background: a faint fixed grid. With JavaScript it is drawn on a canvas (assets/site.js) so dots near the cursor can be pushed away from it. */
 :root { --grid: 24px; }
@@ -356,42 +356,61 @@ html.cursor-native .cursor-dot, html.cursor-native .cursor-ring { opacity: 0; }
 @media (max-width: 520px) {
   .contact-actions .link-row { flex-wrap: wrap; }
 }
-/* Case studies scale with the screen. From laptop width the header (title, intro, audio player and section index) is pinned in a
-   left panel while only the text column scrolls beside it. Smaller screens get a slim pinned bar instead (see .reading-bar).
-   The panel is assembled by assets/site.js and assets/listen.js, so without JavaScript the page stays a single column. */
-.page-toc { display: none; }
-@media (min-width: 1100px) {
-  .reading.has-toc { --side: 330px; --main: 820px; max-width: none; display: grid; grid-template-columns: var(--side) minmax(0, var(--main)); column-gap: 56px; justify-content: center; align-content: start; }
-  .reading.has-toc > .detail-hero { grid-column: 1; grid-row: 1 / span 60; position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow-y: auto; margin: 0; padding: 0 6px 0 0; border-bottom: 0; scrollbar-width: thin; }
+/* Case studies: a centred article. A big dot-matrix title opens the page, the text column sits on the centre line of the screen
+   (where the eye rests), and navigation stays at the edges: a slim top bar that appears once the header scrolls away, plus an
+   "On this page" rail in the left margin on wide screens. The rail and bar are built by assets/site.js and the Listen button by
+   assets/listen.js, so without JavaScript the page is still a single readable column. */
+.page-toc, .reading-bar { display: none; }
+.detail-page .container.reading { width: min(1360px, calc(100% - 2 * var(--gutter))); max-width: none; }
+.detail-page .reading::before { display: none; }
+.detail-page .detail-hero { display: flex; flex-direction: column; align-items: center; margin: 0; padding: var(--space-2) 0 var(--space-5); border-bottom: 0; text-align: center; }
+.detail-page .detail-hero .back-link { align-self: flex-start; margin-bottom: var(--space-4); }
+.detail-page .detail-hero .eyebrow { margin-bottom: var(--space-2); }
+.detail-page .detail-hero .eyebrow::before { content: none; }
+.detail-page .detail-hero h1 { max-width: 100%; margin: 0 0 var(--space-3); font-size: clamp(38px, 9vw, 96px); line-height: 1; overflow-wrap: anywhere; text-shadow: 0 0 34px rgb(158 114 211 / .55); }
+.detail-page .detail-hero .lead { max-width: 34em; margin: 0; color: var(--text); font-size: clamp(18px, 1.7vw, 22px); line-height: 1.55; }
+/* The reading column: about 70 characters wide, centred, on a faint plate so the dot grid never competes with the text. */
+.detail-page .reading > .detail-section, .detail-page .reading > .case-navigation { position: relative; isolation: isolate; width: 100%; max-width: 760px; margin: 0 auto; padding-block: var(--space-4); }
+.detail-page .reading > .detail-section::before, .detail-page .reading > .case-navigation::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(-1 * min(24px, var(--gutter))); right: calc(-1 * min(24px, var(--gutter))); background: rgb(18 15 25 / .88); -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); pointer-events: none; }
+.detail-page .reading > .detail-section + .detail-section { border-top: 1px solid rgb(158 114 211 / .14); }
+.detail-page .detail-section p, .detail-page .detail-section li { font-size: clamp(17px, 1.3vw, 18px); line-height: 1.75; }
+.detail-page .detail-section h2 { margin-bottom: var(--space-3); padding-right: 52px; }
+.detail-page .reading > .case-navigation { padding-bottom: var(--space-6); }
+/* Diagrams may be a little wider than the text so graphics stay large; they stay centred on the same line. */
+.detail-page .diagram { --dw: max(100%, min(1040px, 100vw - 64px)); width: var(--dw); max-width: none; margin-inline: calc((100% - var(--dw)) / 2); }
+/* The resume overview has a long title, so it gets a smaller one. */
+.detail-page .detail-hero-compact h1 { font-size: clamp(30px, 5.4vw, 60px); }
+@media (min-width: 1280px) {
+  .detail-page .diagram { --dw: 880px; }
+  .reading.has-toc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 760px) minmax(0, 1fr); column-gap: 64px; align-content: start; }
+  .reading.has-toc > .detail-hero { grid-column: 1 / -1; }
   .reading.has-toc > .detail-section, .reading.has-toc > .case-navigation { grid-column: 2; }
-  .reading.has-toc > .detail-section { margin-block: 0 var(--space-5); }
-  .reading.has-toc .detail-hero h1 { font-size: clamp(28px, 2.4vw, 34px); margin-bottom: var(--space-2); }
-  .reading.has-toc .detail-hero .lead { margin-bottom: 0; font-size: 15px; line-height: 1.55; }
-  .reading.has-toc .detail-hero .eyebrow { margin-bottom: var(--space-1); }
-  .reading.has-toc .back-link { margin-bottom: var(--space-1); }
-  .page-toc { display: block; margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--border); }
+  .reading.has-toc > .page-toc { display: block; grid-column: 1; grid-row: 2 / span 60; justify-self: end; align-self: start; position: sticky; top: 96px; width: min(100%, 210px); padding-top: var(--space-4); }
   .toc-title { margin: 0 0 var(--space-1); color: var(--text-muted); font: 500 var(--size-label)/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-  .toc-title::before { content: '$ '; color: var(--accent); }
   .page-toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--border); }
   .page-toc li { margin: 0; }
   .page-toc a { display: block; padding: 5px 0 5px 14px; margin-left: -1px; border-left: 2px solid transparent; color: var(--text-muted); font-size: 13.5px; line-height: 1.4; text-decoration: none; transition: color .15s ease, border-color .15s ease; }
   .page-toc a:hover { color: var(--heading); }
   .page-toc a[aria-current="true"] { color: var(--subheading); font-weight: 600; border-left-color: var(--accent); }
 }
-@media (min-width: 1500px) {
-  .reading.has-toc { --side: 360px; --main: 900px; column-gap: 64px; }
-  .detail-page .container.reading { width: min(1360px, calc(100% - 2 * var(--gutter))); }
-  .reading.has-toc .detail-section p, .reading.has-toc .detail-section li { font-size: 17px; }
-}
-/* Slim pinned bar for tablets and phones: title and play/pause stay in view while the text scrolls. */
-.reading-bar { display: none; }
-@media (max-width: 1099px) {
-  .reading-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 45; align-items: center; gap: 12px; height: 54px; padding: 0 var(--gutter); background: #120f19; border-bottom: 1px solid var(--border); }
-  .reading-bar.is-on { display: flex; }
-  html:has(.reading-bar) { scroll-padding-top: 70px; }
-}
-.reading-bar a { flex: none; display: inline-flex; align-items: center; min-height: 44px; color: var(--text-muted); font-size: var(--size-detail); text-decoration: none; }
+/* Slim top bar (every screen size): shows once the header has scrolled away, or while audio plays. */
+.reading-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 45; align-items: center; gap: 12px; height: 54px; padding: 0 max(var(--gutter), calc((100% - 1360px) / 2)); background: #120f19; border-bottom: 1px solid var(--border); }
+.reading-bar.is-on, .reading-bar.is-playing { display: flex; }
+html:has(.reading-bar) { scroll-padding-top: 76px; }
+.reading-bar > a { flex: none; display: inline-flex; align-items: center; min-height: 44px; color: var(--text-muted); font-size: var(--size-detail); text-decoration: none; }
 .reading-bar .reading-title { flex: 1; min-width: 0; overflow: hidden; color: var(--subheading); font: 700 15px/1.2 var(--sans); text-overflow: ellipsis; white-space: nowrap; }
+.reading-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+.reading-index { position: relative; flex: none; }
+.reading-index > summary { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--border); border-radius: 999px; color: var(--text); font: 500 14px/1 var(--sans); list-style: none; cursor: pointer; }
+.reading-index > summary::-webkit-details-marker { display: none; }
+.reading-index > summary::after { content: "▾"; margin-left: 8px; font-size: 12px; color: var(--heading); }
+.reading-index[open] > summary { border-color: var(--accent); }
+.reading-bar .reading-index ol { position: absolute; right: 0; top: calc(100% + 8px); width: min(330px, calc(100vw - 2 * var(--gutter))); max-height: calc(100vh - 90px); overflow-y: auto; margin: 0; padding: 8px; list-style: none; background: #1d1728; border: 1px solid var(--control); border-radius: 12px; box-shadow: 0 12px 34px #00000066; }
+.reading-bar .reading-index li { margin: 0; }
+.reading-bar .reading-index a { display: block; padding: 10px 12px; border-radius: 8px; color: var(--text-muted); font-size: 14px; line-height: 1.35; text-decoration: none; }
+.reading-bar .reading-index a:hover { color: var(--heading); }
+.reading-bar .reading-index a[aria-current="true"] { color: var(--subheading); font-weight: 600; background: rgb(158 114 211 / .16); }
+@media (min-width: 1280px) { .reading-index { display: none; } }
 /* Project diagrams: inline SVG, themed with the site's colours. Wide diagrams scroll sideways on small screens instead of shrinking. */
 .dg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .dg-head { fill: var(--accent); } .dg-head-teal { fill: var(--status); } .dg-head-muted { fill: var(--control); }
@@ -439,16 +458,21 @@ html.cursor-native .cursor-dot, html.cursor-native .cursor-ring { opacity: 0; }
 .dg .ico { fill: none; stroke: var(--heading); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; } .dg .ico-fill { fill: var(--heading); } .dg .ico-node { fill: var(--heading); }
 .dg .tower { fill: none; stroke: var(--control); stroke-width: 3; stroke-linecap: round; } .dg .blades { fill: none; stroke: var(--heading); stroke-width: 4; stroke-linecap: round; } .dg .hub { fill: var(--surface); stroke: var(--heading); stroke-width: 2.4; }
 .dg .db { fill: rgb(117 68 166 / .18); stroke: var(--control); stroke-width: 2; }
-/* Listen (text to speech): see assets/listen.js. */
-.listen { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-3); }
-.detail-page .listen-start { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; border: 1px solid var(--accent); border-radius: 999px; background: var(--button-bg); color: var(--button-text); font: 600 15px/1 var(--sans); cursor: pointer; transition: background .2s ease, transform .15s ease; }
-.detail-page .listen-start:hover { background: var(--button-hover); }
+/* Listen (text to speech): see assets/listen.js. The hero holds one calm button; speed and voice live in a small settings popover. */
+.listen { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin-top: var(--space-4); }
+.detail-page .listen-start { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 1px solid var(--accent); border-radius: 999px; background: transparent; color: var(--heading); font: 600 15px/1 var(--sans); cursor: pointer; transition: background .2s ease, color .2s ease; }
+.detail-page .listen-start:hover { background: rgb(158 114 211 / .18); color: var(--subheading); }
 .detail-page .listen-start small { font-weight: 500; opacity: .8; font-size: 13px; }
-.detail-page .listen-start.is-active { background: rgb(117 68 166 / .35); }
-.listen-field { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: var(--size-detail); }
-.listen-field select { max-width: 220px; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); font: inherit; }
-.listen-note { flex-basis: 100%; margin: 0; color: var(--text-muted); font-size: var(--size-detail); }
-.listen-bar { position: fixed; left: 50%; bottom: 18px; z-index: 50; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; width: min(560px, calc(100% - 24px)); padding: 8px 12px 11px; border: 1px solid var(--control); border-radius: 16px; background: #1d1728; box-shadow: 0 12px 34px #00000066; overflow: hidden; }
+.detail-page .listen-start.is-active { background: rgb(117 68 166 / .35); color: var(--subheading); }
+.listen-settings > summary { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; color: var(--text-muted); list-style: none; cursor: pointer; }
+.listen-settings > summary::-webkit-details-marker { display: none; }
+.listen-settings > summary:hover, .listen-settings[open] > summary { border-color: var(--accent); color: var(--heading); }
+.listen-pop { position: absolute; left: 50%; top: calc(100% + 8px); z-index: 40; display: grid; gap: 12px; width: min(320px, calc(100vw - 2 * var(--gutter))); padding: 16px; transform: translateX(-50%); text-align: left; background: #1d1728; border: 1px solid var(--control); border-radius: 14px; box-shadow: 0 12px 34px #00000066; }
+.listen-field { display: grid; gap: 6px; color: var(--text-muted); font-size: var(--size-detail); }
+.listen-field select { width: 100%; min-height: 44px; padding: 0 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); font: inherit; }
+.listen-note { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+/* Transport strip: only exists while audio is active, floating just under the top bar. */
+.listen-bar { position: fixed; left: 50%; top: 64px; z-index: 44; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; width: min(560px, calc(100% - 24px)); padding: 8px 12px 11px; border: 1px solid var(--control); border-radius: 16px; background: #1d1728; box-shadow: 0 12px 34px #00000066; overflow: hidden; }
 .listen-bar[hidden] { display: none; }
 .detail-page .listen-ctl { flex: none; padding: 0; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 50%; background: var(--raised); color: var(--text); cursor: pointer; }
 .detail-page .listen-ctl:hover:not(:disabled) { border-color: var(--accent); color: var(--heading); }
@@ -456,32 +480,11 @@ html.cursor-native .cursor-dot, html.cursor-native .cursor-ring { opacity: 0; }
 .listen-status { flex: 1; min-width: 0; padding: 0 6px; color: var(--text); font-size: var(--size-detail); line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .listen-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--border); }
 .listen-progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .4s ease; }
-.detail-page .tts-here { position: absolute; right: 0; top: 4px; padding: 0 12px; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--text-muted); font: 500 13px/1 var(--sans); cursor: pointer; opacity: .75; transition: opacity .15s ease, border-color .15s ease, color .15s ease; }
+/* Per-section "listen from here": a small icon beside the heading, faint until the section is hovered or focused. */
+.detail-page .tts-here { position: absolute; right: -4px; top: calc(var(--space-4) - 3px); display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; min-height: 40px; padding: 0; border: 1px solid var(--border); border-radius: 50%; background: transparent; color: var(--text-muted); cursor: pointer; opacity: .55; transition: opacity .15s ease, border-color .15s ease, color .15s ease; }
+.detail-page .tts-here span { display: none; }
 .detail-page .detail-section:hover > .tts-here, .detail-page .tts-here:focus-visible, .detail-page .tts-here.is-active { opacity: 1; border-color: var(--accent); color: var(--heading); }
-.detail-section { position: relative; }
 .tts-current { background: rgb(158 114 211 / .16); box-shadow: -12px 0 0 rgb(158 114 211 / .16), 12px 0 0 rgb(158 114 211 / .16); border-radius: 4px; transition: background .25s ease; }
-@media (max-width: 760px) {
-  .detail-page .tts-here { position: static; margin-bottom: var(--space-1); }
-  .listen-field select { max-width: 150px; }
-}
-@media (min-width: 1100px) {
-  .reading.has-toc .listen { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; margin-top: var(--space-3); }
-  .reading.has-toc .listen-start { grid-column: 1 / -1; justify-content: center; }
-  .reading.has-toc .listen-field { flex-direction: column; align-items: stretch; gap: 4px; }
-  .reading.has-toc .listen-field select { width: 100%; max-width: none; }
-  .reading.has-toc .listen-note { grid-column: 1 / -1; font-size: 12.5px; line-height: 1.4; }
-  .reading.has-toc .listen-bar { position: relative; left: auto; bottom: auto; transform: none; width: auto; grid-column: 1 / -1; box-shadow: none; flex-wrap: wrap; row-gap: 4px; }
-  .reading.has-toc .listen-bar .listen-ctl:nth-of-type(4) { order: 4; margin-left: auto; }
-  .reading.has-toc .listen-status { order: 5; flex: 1 0 100%; padding: 2px 4px 0; font-size: 12.5px; white-space: normal; }
-}
-@media (min-width: 1100px) and (max-height: 860px) {
-  /* Shorter laptop screens: tighten the pinned panel so title, player and index always fit without scrolling inside it. */
-  .reading.has-toc .listen-note { display: none; }
-  .reading.has-toc .listen { margin-top: var(--space-2); }
-  .reading.has-toc .detail-hero .lead { font-size: 14px; line-height: 1.5; }
-  .page-toc { margin-top: var(--space-2); padding-top: var(--space-2); }
-  .page-toc a { padding: 3px 0 3px 14px; font-size: 13px; }
-}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }

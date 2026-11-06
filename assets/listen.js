@@ -91,6 +91,7 @@
     stop: icon('M6 6h12v12H6z'),
     prev: icon('M6 6h2v12H6zM9.5 12 18 6v12z'),
     next: icon('M16 6h2v12h-2zM6 18V6l8.5 6z'),
+    gear: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 6h9.2a3 3 0 0 1 5.6 0H20v2h-1.2a3 3 0 0 1-5.6 0H4zm14 1a1 1 0 1 0-2 0 1 1 0 0 0 2 0zM4 16h1.2a3 3 0 0 1 5.6 0H20v2h-9.2a3 3 0 0 1-5.6 0H4zm5-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>',
   };
   const button = (className, label, html) => {
     const element = document.createElement('button');
@@ -129,11 +130,23 @@
   note.className = 'listen-note';
   note.textContent = 'Uses your device’s built-in voices. Nothing is uploaded.';
 
+  const settings = document.createElement('details');
+  settings.className = 'listen-settings';
+  const settingsLabel = document.createElement('summary');
+  settingsLabel.setAttribute('aria-label', 'Listening settings: speed and voice');
+  settingsLabel.title = 'Speed and voice';
+  settingsLabel.innerHTML = ICON.gear;
+  const pop = document.createElement('div');
+  pop.className = 'listen-pop';
+  pop.append(rateField.wrap, voiceField.wrap, note);
+  settings.append(settingsLabel, pop);
+  document.addEventListener('click', (event) => { if (settings.open && !settings.contains(event.target)) settings.open = false; });
+
   const intro = document.createElement('div');
   intro.className = 'listen';
   intro.setAttribute('role', 'group');
   intro.setAttribute('aria-label', 'Listen to this page');
-  intro.append(startButton, rateField.wrap, voiceField.wrap, note);
+  intro.append(startButton, settings);
   const lead = page.querySelector('.detail-hero .lead') || page.querySelector('.detail-hero');
   lead.after(intro);
   const refreshTime = () => { startButton.querySelector('small').textContent = `about ${minutes(rate)} min`; };
@@ -158,25 +171,13 @@
   const label = document.createElement('span');
   status.append(label);
   bar.append(prevButton, toggleButton, nextButton, status, stopButton, progress);
-  intro.append(bar);
+  document.body.append(bar);
 
 
-  // Slim pinned bar for tablets and phones: title and play/pause stay in view once the header has scrolled away.
-  const hero = page.querySelector('.detail-hero');
-  const topBar = document.createElement('div');
-  topBar.className = 'reading-bar';
-  const backLink = hero.querySelector('.back-link');
-  const topBack = document.createElement('a');
-  topBack.href = backLink ? backLink.getAttribute('href') : '../';
-  topBack.setAttribute('aria-label', 'Back to overview');
-  topBack.textContent = '←';
-  const topTitle = document.createElement('span');
-  topTitle.className = 'reading-title';
-  topTitle.textContent = clean(hero.querySelector('h1'));
+  // The slim top bar is built by site.js (back link, title, Index, progress); the play/pause button joins it here.
+  const topBar = document.querySelector('.reading-bar');
   const topToggle = button('listen-ctl listen-toggle', 'Listen to this page', ICON.play);
-  topBar.append(topBack, topTitle, topToggle);
-  document.body.append(topBar);
-  new IntersectionObserver(([entry]) => topBar.classList.toggle('is-on', !entry.isIntersecting && entry.boundingClientRect.top < 0), { threshold: 0 }).observe(hero);
+  if (topBar) topBar.append(topToggle);
 
   // Per-section "listen from here" buttons.
   sections.forEach((section, index) => {
@@ -212,7 +213,7 @@
     if (!el) return;
     el.classList.add('tts-current');
     const box = el.getBoundingClientRect();
-    if (box.top < 90 || box.bottom > window.innerHeight - 110) el.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (box.top < 150 || box.bottom > window.innerHeight - 70) el.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
   };
   const render = () => {
     const unit = units[position];
@@ -227,6 +228,7 @@
     prevButton.disabled = nextButton.disabled = state === 'stopped';
     topToggle.innerHTML = state === 'playing' ? ICON.pause : ICON.play;
     topToggle.setAttribute('aria-label', state === 'playing' ? 'Pause' : state === 'paused' ? 'Resume' : 'Listen to this page');
+    if (topBar) topBar.classList.toggle('is-playing', state !== 'stopped');
   };
   const finish = () => {
     state = 'stopped';
@@ -285,7 +287,11 @@
     if (state === 'playing') { token += 1; synth.cancel(); speakChunk(); }
   });
   window.addEventListener('pagehide', () => synth.cancel());
-  window.addEventListener('keydown', (event) => { if (event.key === 'Escape' && state !== 'stopped') stop(); });
+  window.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    if (settings.open) { settings.open = false; settingsLabel.focus(); return; }
+    if (state !== 'stopped') stop();
+  });
 
   loadVoices();
   if (typeof synth.addEventListener === 'function') synth.addEventListener('voiceschanged', loadVoices);
