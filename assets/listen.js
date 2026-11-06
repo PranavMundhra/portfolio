@@ -16,7 +16,7 @@
     [/PyPI/g, 'pie P I'], [/OTTools/g, 'O T tools'], [/VoiceRX/g, 'Voice R X'], [/\bT4\b/g, 'T four'], [/IIIT/g, 'I I I T'],
     [/NMIMS/g, 'N M I M S'], [/ANRF/g, 'A N R F'], [/SNOMED CT/g, 'snow med C T'], [/Neo4j/g, 'Neo four J'],
     [/GPT-4o/g, 'G P T four o'], [/HTTP/g, 'H T T P'], [/PostgreSQL/g, 'post gress Q L'], [/\bSQL\b/g, 'sequel'],
-    [/Streamlit/g, 'stream lit'], [/MODI/g, 'modi'], [/\bVAM\b/g, 'V A M'], [/FADE/g, 'fade'], [/\bGB\b/g, 'gigabytes'],
+    [/Streamlit/g, 'stream lit'], [/AppTest/g, 'app test'], [/\bCSV\b/g, 'C S V'], [/LaTeX/g, 'lay tek'], [/MODI/g, 'modi'], [/\bVAM\b/g, 'V A M'], [/FADE/g, 'fade'], [/\bGB\b/g, 'gigabytes'],
     [/\bCARE\b/g, 'care'], [/→/g, ' to '], [/×/g, ' times '], [/≈/g, ' about '], [/\s[–—]\s/g, ', '], [/↗|↓|→/g, ''],
   ];
   const speakable = (raw) => PRONOUNCE.reduce((text, [pattern, replacement]) => text.replace(pattern, replacement), raw).replace(/\s+/g, ' ').trim();

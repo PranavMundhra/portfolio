@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A coauthored Python optimization toolkit and Streamlit interface for linear-programming and transportation problems.">
+  <meta name="description" content="A coauthored Python package for linear-programming and transportation problems, with a Streamlit website that solves problems live and walks through each algorithm.">
   <link rel="preload" href="../../assets/fonts/doto-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="canonical" href="https://pranavmundhra.github.io/portfolio/projects/ottools/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Pranav Mundhra">
   <meta property="og:title" content="OTTools — Pranav Mundhra">
-  <meta property="og:description" content="A coauthored Python optimization toolkit and Streamlit interface for linear-programming and transportation problems.">
+  <meta property="og:description" content="A coauthored Python package for linear-programming and transportation problems, with a Streamlit website that solves problems live and walks through each algorithm.">
   <meta property="og:url" content="https://pranavmundhra.github.io/portfolio/projects/ottools/">
   <meta property="og:image" content="https://pranavmundhra.github.io/portfolio/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -30,16 +30,33 @@
       <a class="back-link" href="../../#projects">← Back to overview</a>
       <p class="eyebrow">Optimization · Python package</p>
       <h1>OTTools</h1>
-      <p class="lead">A coauthored optimization toolkit with an interactive interface for exploring solutions.</p>
+      <p class="lead">A PyPI package for linear-programming and transportation problems, and a website that shows each method working step by step.</p>
     </div>
     <section class="detail-section">
       <h2>Purpose and methods</h2>
-      <p>OTTools addresses linear-programming and transportation problems through a Python package and a Streamlit interface. The package documents Simplex, Big-M, Vogel's Approximation, Least Cost, and MODI methods. Version 0.1.2 has been on PyPI since April 2025.</p>
+      <p>OTTools is a Python package for linear-programming and transportation problems. For linear programming it offers the graphical method (two or three variables), Simplex, Big M for mixed constraints, and integer programming by branch and bound. For transportation it offers the North-West Corner rule, Least Cost, Vogel's Approximation, and MODI. The first release went to PyPI in April 2025, and version 0.1.3 followed on 6 November 2026 after a round of bug fixes.</p>
       <figure class="case-visual diagram"><svg class="dg-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><marker id="dg-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-head" d="M0 0 L10 5 L0 10 z"/></marker><marker id="dg-arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-head-teal" d="M0 0 L10 5 L0 10 z"/></marker><marker id="dg-arrow-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-head-muted" d="M0 0 L10 5 L0 10 z"/></marker></defs></svg><div class="diagram-scroll"><svg class="dg" viewBox="0 0 960 380" role="img" aria-label="Transportation problem: three suppliers ship to three customers along routes with different costs, and the cheapest shipment plan is highlighted. On the right, the method: start with a first plan, test with MODI, improve, and repeat until optimal." focusable="false"><text x="90" y="36" class="t-strong" text-anchor="middle">Suppliers</text><text x="440" y="36" class="t-strong" text-anchor="middle">Customers</text><path class="edge" d="M120 96 L410 96"/><path class="edge" d="M120 96 L410 196"/><path class="edge" d="M120 96 L410 296"/><path class="edge" d="M120 196 L410 96"/><path class="edge" d="M120 196 L410 196"/><path class="edge" d="M120 196 L410 296"/><path class="edge" d="M120 296 L410 96"/><path class="edge" d="M120 296 L410 196"/><path class="edge" d="M120 296 L410 296"/><path class="edge-used" d="M120 96 L410 96"/><path class="edge-used" d="M120 96 L410 196"/><path class="edge-used" d="M120 196 L410 196"/><path class="edge-used" d="M120 196 L410 296"/><path class="edge-used" d="M120 296 L410 296"/><rect class="qty-bg" x="249.0" y="74.0" width="32" height="20" rx="6"/><text x="265.0" y="89.0" class="t-qty" text-anchor="middle">30</text><rect class="qty-bg" x="249.0" y="122.0" width="32" height="20" rx="6"/><text x="265.0" y="137.0" class="t-qty" text-anchor="middle">10</text><rect class="qty-bg" x="249.0" y="174.0" width="32" height="20" rx="6"/><text x="265.0" y="189.0" class="t-qty" text-anchor="middle">25</text><rect class="qty-bg" x="249.0" y="222.0" width="32" height="20" rx="6"/><text x="265.0" y="237.0" class="t-qty" text-anchor="middle">5</text><rect class="qty-bg" x="249.0" y="274.0" width="32" height="20" rx="6"/><text x="265.0" y="289.0" class="t-qty" text-anchor="middle">20</text><circle class="sup" cx="90" cy="96" r="32"/><text x="90" y="94" class="t-strong" text-anchor="middle">S1</text><text x="90" y="112" class="t-sm" text-anchor="middle">40</text><circle class="dem" cx="440" cy="96" r="32"/><text x="440" y="94" class="t-strong" text-anchor="middle">D1</text><text x="440" y="112" class="t-sm" text-anchor="middle">30</text><circle class="sup" cx="90" cy="196" r="32"/><text x="90" y="194" class="t-strong" text-anchor="middle">S2</text><text x="90" y="212" class="t-sm" text-anchor="middle">30</text><circle class="dem" cx="440" cy="196" r="32"/><text x="440" y="194" class="t-strong" text-anchor="middle">D2</text><text x="440" y="212" class="t-sm" text-anchor="middle">35</text><circle class="sup" cx="90" cy="296" r="32"/><text x="90" y="294" class="t-strong" text-anchor="middle">S3</text><text x="90" y="312" class="t-sm" text-anchor="middle">20</text><circle class="dem" cx="440" cy="296" r="32"/><text x="440" y="294" class="t-strong" text-anchor="middle">D3</text><text x="440" y="312" class="t-sm" text-anchor="middle">25</text><text x="260" y="352" class="t-sm" text-anchor="middle">Illustrative numbers: units shipped on the cheapest plan</text><rect class="box" x="560" y="40" width="360" height="64" rx="12"/><text x="578" y="68" class="t-strong" text-anchor="start">1  Start</text><text x="578" y="90" class="t-sm" text-anchor="start">Least Cost or Vogel’s method builds a first plan</text><path class="line" d="M740 104 V130" marker-end="url(#dg-arrow-muted)"/><rect class="box" x="560" y="130" width="360" height="64" rx="12"/><text x="578" y="158" class="t-strong" text-anchor="start">2  Test</text><text x="578" y="180" class="t-sm" text-anchor="start">MODI checks whether any change is cheaper</text><path class="line" d="M740 194 V220" marker-end="url(#dg-arrow-muted)"/><rect class="box" x="560" y="220" width="360" height="64" rx="12"/><text x="578" y="248" class="t-strong" text-anchor="start">3  Improve</text><text x="578" y="270" class="t-sm" text-anchor="start">shift flow around a loop, then test again</text><rect class="box-accent" x="560" y="316" width="360" height="44" rx="12"/><text x="740" y="344" class="t-strong" text-anchor="middle">Optimal: no change is cheaper</text><path class="line" d="M740 304 V312" marker-end="url(#dg-arrow-muted)"/><path class="flow" d="M920 252 H944 V162 H922" marker-end="url(#dg-arrow)"/></svg></div><p class="diagram-hint" aria-hidden="true">Swipe sideways to see the whole diagram.</p><figcaption>A transportation problem with illustrative numbers, and the loop the package follows to solve it.</figcaption></figure>
     </section>
     <section class="detail-section">
+      <h2>The Streamlit website</h2>
+      <p>The website shows the package working. On the Linear Programming and Transportation pages you enter a problem in an editable table or load an example, pick a method, and see the answer in three tabs: the result, a chart (linear programming) or a flow (transportation), and the exact OTTools call that produced it. Every result is computed live by the package; nothing is hard-coded.</p>
+      <p>A Learn page walks through all eight algorithms on worked examples. The package returns only final answers, so the lessons use small teaching versions of each algorithm that record every intermediate step. Each lesson also runs the real package on the same problem and shows whether the two answers match.</p>
+      <p>Building on version 0.1.3 meant working around two limits of the graphical method. It only maximises with less-than-or-equal constraints, so the site converts minimise problems and greater-than-or-equal and equality rows before the call, and says so on the page. It also opens its own Plotly figure, which the site captures and draws on the page. The site double-checks each graphical answer with Big M, so an unbounded problem is not reported as optimal.</p>
+    </section>
+    <section class="detail-section">
       <h2>Attribution</h2>
-      <p>I co-authored OTTools with Mohammad Saad Nathani. I was responsible for the linear-programming part of the package, and I built the Streamlit website on top of it that shows visually how the methods work.</p>
+      <p>I co-authored OTTools with Mohammad Saad Nathani. Saad was responsible for the linear-programming part of the package and I was responsible for the transportation part. I also built the Streamlit website on top of it that demonstrates via an example how this package can be used in real-world application.</p>
+    </section>
+    <section class="detail-section">
+      <h2>Current boundaries</h2>
+      <p>The website has no automated test suite yet. During development, every page, example, and method was exercised with Streamlit's AppTest, and all eight lessons were checked against version 0.1.3.</p>
+      <p>Planned next:</p>
+      <ul>
+        <li>Step-by-step output from the package itself, such as tableaux and MODI values, in place of the teaching versions.</li>
+        <li>Running several methods on one problem side by side.</li>
+        <li>Exporting results to CSV or LaTeX.</li>
+        <li>Sensitivity analysis.</li>
+      </ul>
     </section>
     <section class="detail-section">
       <h2>Evidence and links</h2>
