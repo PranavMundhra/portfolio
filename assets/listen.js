@@ -113,6 +113,7 @@
 
   const minutes = (r) => Math.max(1, Math.round(totalWords / (165 * r)));
   const startButton = button('listen-start', 'Listen to this page', `${ICON.play}<span>Listen to this page</span><small></small>`);
+  startButton.title = 'Uses your device’s built-in voices. Nothing is uploaded.';
   const rateField = select('listen-rate', 'Speed');
   [[0.8, '0.8×'], [1, '1×'], [1.15, '1.15×'], [1.3, '1.3×'], [1.5, '1.5×']].forEach(([value, label]) => {
     const option = document.createElement('option');
@@ -157,7 +158,25 @@
   const label = document.createElement('span');
   status.append(label);
   bar.append(prevButton, toggleButton, nextButton, status, stopButton, progress);
-  document.body.append(bar);
+  intro.append(bar);
+
+
+  // Slim pinned bar for tablets and phones: title and play/pause stay in view once the header has scrolled away.
+  const hero = page.querySelector('.detail-hero');
+  const topBar = document.createElement('div');
+  topBar.className = 'reading-bar';
+  const backLink = hero.querySelector('.back-link');
+  const topBack = document.createElement('a');
+  topBack.href = backLink ? backLink.getAttribute('href') : '../';
+  topBack.setAttribute('aria-label', 'Back to overview');
+  topBack.textContent = '←';
+  const topTitle = document.createElement('span');
+  topTitle.className = 'reading-title';
+  topTitle.textContent = clean(hero.querySelector('h1'));
+  const topToggle = button('listen-ctl listen-toggle', 'Listen to this page', ICON.play);
+  topBar.append(topBack, topTitle, topToggle);
+  document.body.append(topBar);
+  new IntersectionObserver(([entry]) => topBar.classList.toggle('is-on', !entry.isIntersecting && entry.boundingClientRect.top < 0), { threshold: 0 }).observe(hero);
 
   // Per-section "listen from here" buttons.
   sections.forEach((section, index) => {
@@ -206,6 +225,8 @@
     startButton.classList.toggle('is-active', state !== 'stopped');
     sections.forEach((item) => item.here.classList.toggle('is-active', state !== 'stopped' && unit && unit.section === item.index));
     prevButton.disabled = nextButton.disabled = state === 'stopped';
+    topToggle.innerHTML = state === 'playing' ? ICON.pause : ICON.play;
+    topToggle.setAttribute('aria-label', state === 'playing' ? 'Pause' : state === 'paused' ? 'Resume' : 'Listen to this page');
   };
   const finish = () => {
     state = 'stopped';
@@ -248,6 +269,7 @@
 
   startButton.addEventListener('click', () => { if (state === 'stopped') start(0); else if (state === 'playing') pause(); else resume(); });
   toggleButton.addEventListener('click', () => { if (state === 'playing') pause(); else resume(); });
+  topToggle.addEventListener('click', () => { if (state === 'stopped') start(0); else if (state === 'playing') pause(); else resume(); });
   prevButton.addEventListener('click', () => jump(-1));
   nextButton.addEventListener('click', () => jump(1));
   stopButton.addEventListener('click', stop);

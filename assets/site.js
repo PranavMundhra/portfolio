@@ -276,7 +276,7 @@ if (readingPage && readingSections.length >= 3) {
     return { section, link };
   });
   toc.append(title, list);
-  readingPage.querySelector(':scope > .detail-hero').after(toc);
+  readingPage.querySelector(':scope > .detail-hero').append(toc);
   readingPage.classList.add('has-toc');
   let activeLink;
   let tocQueued = false;
