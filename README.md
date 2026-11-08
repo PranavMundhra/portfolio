@@ -2,19 +2,6 @@
 
 A buildless static portfolio: plain HTML, CSS and a little JavaScript. There is nothing to install or compile, and no backend. Core content and navigation work without JavaScript. The script adds the print button on the resume page, the section-nav highlighting, scroll fade-ins, a dot grid that bulges outward around the cursor, a custom dot-and-ring cursor and the surname typing effect, and it respects reduced-motion settings.
 
-## Local preview
-
-```sh
-npm run dev
-```
-
-Open <http://127.0.0.1:4173>. Stop the server with Ctrl+C. Set `PORT` to use a different port.
-
-```sh
-npm run check
-```
-
-The checker validates every HTML page: relative links and anchors, titles and descriptions, a single `h1`, skip links, image alt text, and leftover editorial placeholders. It does not check external services.
 
 ## Case-study extras
 
