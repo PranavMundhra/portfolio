@@ -374,3 +374,41 @@ if (surname) {
   document.addEventListener('visibilitychange', reset);
   if (canAnimate()) timer = window.setTimeout(typeName, 500);
 }
+
+// Analytics events (GoatCounter, cookie-free). The page-view script is in each page's head; this only counts a few actions,
+// and does nothing if that script is blocked or has not loaded. No personal data is sent.
+const track = (name, title) => {
+  try { if (window.goatcounter && typeof window.goatcounter.count === 'function') window.goatcounter.count({ path: name, title: title || name, event: true }); } catch { /* analytics unavailable */ }
+};
+// Capture phase, so the player's own state (is-active, aria-label) is still the one from before the click.
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href]');
+  if (link) {
+    const href = link.getAttribute('href');
+    if (/\.pdf($|\?)/i.test(href)) track('click-resume-pdf', 'Download resume');
+    else if (/^mailto:/i.test(href)) track('click-email', 'Email');
+    else if (/github\.com/i.test(href)) track('click-github', 'GitHub link');
+    else if (/linkedin\.com/i.test(href)) track('click-linkedin', 'LinkedIn link');
+    else if (/pypi\.org/i.test(href)) track('click-pypi', 'PyPI link');
+    else if (link.classList.contains('case-study-link')) track(`open-case-study/${href.replace(/\/+$/, '').split('/').pop()}`, 'Open case study');
+    return;
+  }
+  const button = event.target.closest('button');
+  if (!button) return;
+  if (button.classList.contains('listen-start') && !button.classList.contains('is-active')) track('listen-start', 'Listen to this page');
+  else if (button.classList.contains('listen-toggle') && button.closest('.reading-bar') && button.getAttribute('aria-label') === 'Listen to this page') track('listen-start', 'Listen to this page');
+  else if (button.classList.contains('tts-here')) track('listen-from-section', 'Listen from a section');
+}, true);
+// How far down a case study people get: counted once per page at 25, 50, 75 and 100 percent.
+if (readingPage && readingSections.length >= 3) {
+  const reached = new Set();
+  const markDepth = () => {
+    const room = document.documentElement.scrollHeight - window.innerHeight;
+    if (room <= 0) return;
+    const share = (window.scrollY / room) * 100;
+    [25, 50, 75, 100].forEach((step) => {
+      if (share >= step - 1 && !reached.has(step)) { reached.add(step); track(`scroll-${step}/${location.pathname.replace(/\/+$/, '').split('/').pop() || 'page'}`, `Read ${step}%`); }
+    });
+  };
+  window.addEventListener('scroll', markDepth, { passive: true });
+}
